@@ -29,6 +29,7 @@
       overflow-x: hidden;
     }
 
+    /* ── TYPOGRAPHY ── */
     h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
     .section-label {
@@ -63,6 +64,7 @@
     }
     .divider-icon { color: var(--gold); font-size: 1.1rem; }
 
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -138,6 +140,7 @@
       transition: .3s;
     }
 
+    /* ── HERO ── */
     #hero {
       position: relative;
       min-height: 100vh;
@@ -150,11 +153,12 @@
 
     .hero-bg {
       position: absolute;
-      inset: 0;
+      top: -30%; left: 0; right: 0; bottom: 0;
       background:
         linear-gradient(160deg, rgba(139,0,0,.72) 0%, rgba(26,18,9,.88) 100%),
         url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
       animation: slowZoom 20s ease-in-out infinite alternate;
+      will-change: transform;
     }
 
     @keyframes slowZoom {
@@ -182,7 +186,7 @@
 
     .hero-content {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       max-width: 820px;
       padding: 2rem 1.5rem;
     }
@@ -270,7 +274,7 @@
       font-size: .68rem;
       letter-spacing: .18em;
       text-transform: uppercase;
-      z-index: 2;
+      z-index: 3;
       animation: fadeDown .8s 1.2s both;
     }
 
@@ -291,9 +295,12 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── SECTION WRAPPER ── */
     section { padding: 6rem 5%; }
+
     .container { max-width: 1180px; margin: 0 auto; }
 
+    /* ── ABOUT ── */
     #about { background: var(--dark); }
 
     .about-grid {
@@ -303,7 +310,9 @@
       align-items: center;
     }
 
-    .about-img-wrap { position: relative; }
+    .about-img-wrap {
+      position: relative;
+    }
 
     .about-img {
       width: 100%;
@@ -371,6 +380,7 @@
       margin-top: .3rem;
     }
 
+    /* ── MENU ── */
     #menu { background: var(--cream); }
 
     .menu-header { text-align: center; margin-bottom: 1rem; }
@@ -468,6 +478,7 @@
       border-radius: 20px;
     }
 
+    /* ── GALLERY ── */
     #gallery { background: var(--dark); text-align: center; }
     #gallery .section-title { color: #fff; }
 
@@ -506,6 +517,7 @@
     .gallery-item:hover img { transform: scale(1.07); }
     .gallery-item:hover::after { opacity: 1; }
 
+    /* ── TESTIMONIALS ── */
     #testimonials { background: var(--cream); text-align: center; }
 
     .testimonials-grid {
@@ -560,6 +572,7 @@
     .author-name { font-weight: 700; font-size: .88rem; color: var(--dark); }
     .author-location { font-size: .75rem; color: var(--muted); }
 
+    /* ── RESERVATION ── */
     #reservation {
       background:
         linear-gradient(135deg, rgba(139,0,0,.9) 0%, rgba(26,18,9,.95) 100%),
@@ -651,6 +664,7 @@
     }
     .form-submit:hover { background: var(--gold-l); transform: translateY(-1px); }
 
+    /* ── FOOTER ── */
     footer {
       background: #0E0B06;
       color: rgba(255,255,255,.45);
@@ -732,6 +746,7 @@
 
     .footer-bottom a { color: var(--gold); text-decoration: none; }
 
+    /* ── SUCCESS MESSAGE ── */
     .form-success {
       display: none;
       text-align: center;
@@ -742,6 +757,17 @@
     .form-success h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: .5rem; }
     .form-success p { color: rgba(255,255,255,.65); font-size: .9rem; }
 
+    /* ── PARTICLES CANVAS ── */
+    #particleCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -749,6 +775,7 @@
     }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 180px); }
@@ -785,6 +812,7 @@
 </head>
 <body>
 
+<!-- ══════════ NAVIGATION ══════════ -->
 <nav id="navbar">
   <div class="nav-logo">
     <span class="en">Golden Eagle</span>
@@ -802,8 +830,10 @@
   </button>
 </nav>
 
+<!-- ══════════ HERO ══════════ -->
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" id="heroBg"></div>
+  <canvas id="particleCanvas"></canvas>
   <div class="hero-ornament"></div>
   <div class="hero-content">
     <div class="hero-badge">Est. 1994 · Moscow &amp; New York</div>
@@ -820,11 +850,17 @@
   </div>
 </section>
 
+<!-- ══════════ ABOUT ══════════ -->
 <section id="about">
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap reveal">
-        <img class="about-img" src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=80" alt="Interior of Golden Eagle restaurant" loading="lazy" />
+        <img
+          class="about-img"
+          src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=80"
+          alt="Interior of Golden Eagle restaurant"
+          loading="lazy"
+        />
         <div class="about-img-frame"></div>
         <div class="about-badge"><span class="year">30</span><span class="since">Years of Excellence</span></div>
       </div>
@@ -844,6 +880,7 @@
   </div>
 </section>
 
+<!-- ══════════ MENU ══════════ -->
 <section id="menu">
   <div class="container">
     <div class="menu-header reveal">
@@ -859,11 +896,15 @@
       <button class="tab-btn" data-tab="drinks">Drinks</button>
     </div>
 
+    <!-- STARTERS -->
     <div class="menu-panel active" id="tab-starters">
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?w=600&q=70" alt="Blini" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Blini with Caviar</span><span class="menu-card-price">$28</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Blini with Caviar</span>
+            <span class="menu-card-price">2 800 ₽</span>
+          </div>
           <p class="menu-card-desc">Delicate buckwheat crepes served warm with Ossetra caviar, crème fraîche, and a garnish of fresh dill.</p>
           <span class="menu-card-tag">Chef's Favourite</span>
         </div>
@@ -871,7 +912,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&q=70" alt="Olivier Salad" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Olivier Salad</span><span class="menu-card-price">$16</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Olivier Salad</span>
+            <span class="menu-card-price">1 600 ₽</span>
+          </div>
           <p class="menu-card-desc">The classic Russian salad — tender potato, carrot, peas, gherkins, egg, and chicken bound in house-made mayonnaise.</p>
           <span class="menu-card-tag">Traditional</span>
         </div>
@@ -879,7 +923,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1551218372-a8789b81b253?w=600&q=70" alt="Pelmeni" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Siberian Pelmeni</span><span class="menu-card-price">$22</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Siberian Pelmeni</span>
+            <span class="menu-card-price">2 200 ₽</span>
+          </div>
           <p class="menu-card-desc">Hand-folded dumplings filled with a blend of pork and veal, served in a rich bouillon with smetana.</p>
           <span class="menu-card-tag">Signature</span>
         </div>
@@ -887,18 +934,25 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=600&q=70" alt="Herring" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Dressed Herring</span><span class="menu-card-price">$18</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Dressed Herring</span>
+            <span class="menu-card-price">1 800 ₽</span>
+          </div>
           <p class="menu-card-desc">Layers of lightly salted herring, potato, carrot, onion and beetroot draped in a velvet coat of smetana mayonnaise.</p>
           <span class="menu-card-tag">Traditional</span>
         </div>
       </div>
     </div>
 
+    <!-- MAINS -->
     <div class="menu-panel" id="tab-mains">
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=70" alt="Beef Stroganoff" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Beef Stroganoff</span><span class="menu-card-price">$42</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Beef Stroganoff</span>
+            <span class="menu-card-price">4 200 ₽</span>
+          </div>
           <p class="menu-card-desc">Filet of Wagyu tenderloin sautéed with forest mushrooms in a cognac-cream sauce, served over house-made buckwheat noodles.</p>
           <span class="menu-card-tag">Chef's Favourite</span>
         </div>
@@ -906,7 +960,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=70" alt="Chicken Kiev" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Chicken Kyiv</span><span class="menu-card-price">$38</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Chicken Kyiv</span>
+            <span class="menu-card-price">3 800 ₽</span>
+          </div>
           <p class="menu-card-desc">Free-range chicken breast filled with herb butter, encased in a golden breadcrumb crust and served with whipped potato.</p>
           <span class="menu-card-tag">Classic</span>
         </div>
@@ -914,7 +971,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=70" alt="Lamb Plov" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Lamb Plov</span><span class="menu-card-price">$36</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Lamb Plov</span>
+            <span class="menu-card-price">3 600 ₽</span>
+          </div>
           <p class="menu-card-desc">Slow-cooked Uzbek-style rice pilaf with braised lamb shoulder, golden onion, carrot and warm spices, finished with barberries.</p>
           <span class="menu-card-tag">Seasonal</span>
         </div>
@@ -922,18 +982,25 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600&q=70" alt="Salmon" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Wild Salmon Coulibiac</span><span class="menu-card-price">$46</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Wild Salmon Coulibiac</span>
+            <span class="menu-card-price">4 600 ₽</span>
+          </div>
           <p class="menu-card-desc">A masterpiece of Russian pastry craft: wild Kamchatka salmon, duxelles, rice and egg baked in a saffron brioche crust.</p>
           <span class="menu-card-tag">Signature</span>
         </div>
       </div>
     </div>
 
+    <!-- SOUPS -->
     <div class="menu-panel" id="tab-soups">
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=70" alt="Borscht" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Classic Borscht</span><span class="menu-card-price">$14</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Classic Borscht</span>
+            <span class="menu-card-price">1 400 ₽</span>
+          </div>
           <p class="menu-card-desc">Deep crimson beet soup with tender braised beef, cabbage, potato and a generous dollop of cold smetana and dill.</p>
           <span class="menu-card-tag">National Dish</span>
         </div>
@@ -941,7 +1008,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=70" alt="Solyanka" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Solyanka</span><span class="menu-card-price">$16</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Solyanka</span>
+            <span class="menu-card-price">1 600 ₽</span>
+          </div>
           <p class="menu-card-desc">A robust, slightly sour soup of assorted cured meats, olives, capers, lemon and fragrant herbs — a true Russian cure-all.</p>
           <span class="menu-card-tag">Traditional</span>
         </div>
@@ -949,18 +1019,25 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1604152135912-04a022e23696?w=600&q=70" alt="Ukha" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Ukha Fish Soup</span><span class="menu-card-price">$18</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Ukha Fish Soup</span>
+            <span class="menu-card-price">1 800 ₽</span>
+          </div>
           <p class="menu-card-desc">A crystal-clear broth of fresh pike-perch, salmon and trout, fragrant with bay leaf, allspice and garden herbs.</p>
           <span class="menu-card-tag">Seasonal</span>
         </div>
       </div>
     </div>
 
+    <!-- DESSERTS -->
     <div class="menu-panel" id="tab-desserts">
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=70" alt="Honey Cake" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Medovik Honey Cake</span><span class="menu-card-price">$13</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Medovik Honey Cake</span>
+            <span class="menu-card-price">1 300 ₽</span>
+          </div>
           <p class="menu-card-desc">Twenty paper-thin honey sponge layers stacked with velvety smetana cream — Russia's most beloved dessert.</p>
           <span class="menu-card-tag">Most Popular</span>
         </div>
@@ -968,7 +1045,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=70" alt="Charlotte" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Apple Charlotte</span><span class="menu-card-price">$11</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Apple Charlotte</span>
+            <span class="menu-card-price">1 100 ₽</span>
+          </div>
           <p class="menu-card-desc">Warm baked apple sponge with cinnamon, dusted in icing sugar and served alongside vanilla bean ice cream.</p>
           <span class="menu-card-tag">Home Style</span>
         </div>
@@ -976,18 +1056,25 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=70" alt="Ptichye Moloko" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Bird's Milk Cake</span><span class="menu-card-price">$14</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Bird's Milk Cake</span>
+            <span class="menu-card-price">1 400 ₽</span>
+          </div>
           <p class="menu-card-desc">The legendary Ptichye Moloko — an airy agar soufflé sandwiched in dark chocolate sponge, glazed in bittersweet couverture.</p>
           <span class="menu-card-tag">Signature</span>
         </div>
       </div>
     </div>
 
+    <!-- DRINKS -->
     <div class="menu-panel" id="tab-drinks">
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1542574621-e088a4464f7e?w=600&q=70" alt="Vodka" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Craft Vodka Flight</span><span class="menu-card-price">$34</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Craft Vodka Flight</span>
+            <span class="menu-card-price">3 400 ₽</span>
+          </div>
           <p class="menu-card-desc">A curated tasting of three premium Russian vodkas — wheat, rye and potato — served over hand-chipped ice.</p>
           <span class="menu-card-tag">Signature</span>
         </div>
@@ -995,7 +1082,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=70" alt="Kvass" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">House-Fermented Kvass</span><span class="menu-card-price">$9</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">House-Fermented Kvass</span>
+            <span class="menu-card-price">900 ₽</span>
+          </div>
           <p class="menu-card-desc">Our chef's own lightly fermented rye bread drink, naturally sparkling with hints of malt, raisin and a whisper of mint.</p>
           <span class="menu-card-tag">Non-Alcoholic</span>
         </div>
@@ -1003,7 +1093,10 @@
       <div class="menu-card reveal">
         <img class="menu-card-img" src="https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=600&q=70" alt="Tea" loading="lazy" />
         <div class="menu-card-body">
-          <div class="menu-card-head"><span class="menu-card-name">Samovar Black Tea</span><span class="menu-card-price">$7</span></div>
+          <div class="menu-card-head">
+            <span class="menu-card-name">Samovar Black Tea</span>
+            <span class="menu-card-price">700 ₽</span>
+          </div>
           <p class="menu-card-desc">Strong loose-leaf Ivan Chai served in the traditional manner from a gleaming samovar, with jam and a cube of sugar.</p>
           <span class="menu-card-tag">Traditional</span>
         </div>
@@ -1012,20 +1105,32 @@
   </div>
 </section>
 
+<!-- ══════════ GALLERY ══════════ -->
 <section id="gallery">
   <div class="container">
     <p class="section-label reveal">Inside Golden Eagle</p>
     <h2 class="section-title reveal">Our <span>Atmosphere</span></h2>
     <div class="gallery-grid">
-      <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Restaurant interior" loading="lazy" /></div>
-      <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80" alt="Table setting" loading="lazy" /></div>
-      <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=500&q=80" alt="Chef at work" loading="lazy" /></div>
-      <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=900&q=80" alt="Cocktails" loading="lazy" /></div>
-      <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1481931715705-36f5f19d7742?w=500&q=80" alt="Candlelight dining" loading="lazy" /></div>
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Restaurant interior" loading="lazy" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80" alt="Table setting" loading="lazy" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=500&q=80" alt="Chef at work" loading="lazy" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=900&q=80" alt="Cocktails" loading="lazy" />
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://images.unsplash.com/photo-1481931715705-36f5f19d7742?w=500&q=80" alt="Candlelight dining" loading="lazy" />
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ══════════ TESTIMONIALS ══════════ -->
 <section id="testimonials">
   <div class="container">
     <div class="menu-header reveal">
@@ -1036,7 +1141,7 @@
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"The Beef Stroganoff transported me straight to St. Petersburg. The depth of flavour, the tenderness of the meat — this is cooking that carries memory and love in every bite."</p>
+        <p class="testimonial-text">“The Beef Stroganoff transported me straight to St. Petersburg. The depth of flavour, the tenderness of the meat — this is cooking that carries memory and love in every bite.”</p>
         <div class="testimonial-author">
           <img class="author-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=70" alt="Sophie M." loading="lazy" />
           <div><div class="author-name">Sophie M.</div><div class="author-location">New York, NY</div></div>
@@ -1044,7 +1149,7 @@
       </div>
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"The atmosphere is extraordinary — all dark wood, candlelight and the gentle hum of a balalaika. An evening at Golden Eagle is not dinner; it is an experience you will talk about for years."</p>
+        <p class="testimonial-text">“The atmosphere is extraordinary — all dark wood, candlelight and the gentle hum of a balalaika. An evening at Golden Eagle is not dinner; it is an experience you will talk about for years.”</p>
         <div class="testimonial-author">
           <img class="author-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=70" alt="James K." loading="lazy" />
           <div><div class="author-name">James K.</div><div class="author-location">Boston, MA</div></div>
@@ -1052,7 +1157,7 @@
       </div>
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"As someone of Russian heritage, this felt like coming home. The Medovik was exactly as my grandmother made it. Thank you for preserving these beautiful traditions with such artistry."</p>
+        <p class="testimonial-text">“As someone of Russian heritage, this felt like coming home. The Medovik was exactly as my grandmother made it. Thank you for preserving these beautiful traditions with such artistry.”</p>
         <div class="testimonial-author">
           <img class="author-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=70" alt="Natasha R." loading="lazy" />
           <div><div class="author-name">Natasha R.</div><div class="author-location">Brooklyn, NY</div></div>
@@ -1062,6 +1167,7 @@
   </div>
 </section>
 
+<!-- ══════════ RESERVATION ══════════ -->
 <section id="reservation">
   <div class="container">
     <div class="reservation-inner">
@@ -1071,32 +1177,70 @@
         <div class="divider"><span class="divider-icon" style="color:var(--gold-l)">✦</span></div>
         <p>We welcome you to experience the warmth and grandeur of Russian hospitality. For large parties of 8 or more, or for private events, please call us directly.</p>
         <ul class="info-list">
-          <li><span class="info-icon">📍</span><span>42 Nevsky Promenade, New York, NY 10036</span></li>
-          <li><span class="info-icon">📞</span><span>+1 (212) 555-0194</span></li>
-          <li><span class="info-icon">✉️</span><span>reservations@goldeneagleny.com</span></li>
-          <li><span class="info-icon">🕐</span><span>Mon–Thu: 5 pm – 11 pm<br />Fri–Sat: 5 pm – Midnight<br />Sunday: 4 pm – 10 pm</span></li>
-          <li><span class="info-icon">🎻</span><span>Live balalaika ensemble every Friday &amp; Saturday from 8 pm</span></li>
+          <li>
+            <span class="info-icon">📍</span>
+            <span>42 Nevsky Promenade, New York, NY 10036</span>
+          </li>
+          <li>
+            <span class="info-icon">📞</span>
+            <span>+1 (212) 555-0194</span>
+          </li>
+          <li>
+            <span class="info-icon">✉️</span>
+            <span>reservations@goldeneagleny.com</span>
+          </li>
+          <li>
+            <span class="info-icon">🕐</span>
+            <span>Mon–Thu: 5 pm – 11 pm<br />Fri–Sat: 5 pm – Midnight<br />Sunday: 4 pm – 10 pm</span>
+          </li>
+          <li>
+            <span class="info-icon">🎻</span>
+            <span>Live balalaika ensemble every Friday &amp; Saturday from 8 pm</span>
+          </li>
         </ul>
       </div>
       <div class="reservation-form reveal" id="reservationForm">
         <form id="bookingForm" onsubmit="handleSubmit(event)">
           <div class="form-row">
-            <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" placeholder="Ivan" required /></div>
-            <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" placeholder="Volkov" required /></div>
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" placeholder="Ivan" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" placeholder="Volkov" required />
+            </div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="you@example.com" required /></div>
-            <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" placeholder="+1 (212) 555-0100" /></div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" placeholder="+1 (212) 555-0100" />
+            </div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label for="date">Date</label><input type="date" id="date" required /></div>
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="date" id="date" required />
+            </div>
             <div class="form-group">
               <label for="time">Time</label>
               <select id="time" required>
                 <option value="" disabled selected>Select time</option>
-                <option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option><option>6:30 PM</option>
-                <option>7:00 PM</option><option>7:30 PM</option><option>8:00 PM</option><option>8:30 PM</option>
-                <option>9:00 PM</option><option>9:30 PM</option><option>10:00 PM</option>
+                <option>5:00 PM</option>
+                <option>5:30 PM</option>
+                <option>6:00 PM</option>
+                <option>6:30 PM</option>
+                <option>7:00 PM</option>
+                <option>7:30 PM</option>
+                <option>8:00 PM</option>
+                <option>8:30 PM</option>
+                <option>9:00 PM</option>
+                <option>9:30 PM</option>
+                <option>10:00 PM</option>
               </select>
             </div>
           </div>
@@ -1104,11 +1248,20 @@
             <label for="guests">Number of Guests</label>
             <select id="guests" required>
               <option value="" disabled selected>Select party size</option>
-              <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option><option>4 Guests</option>
-              <option>5 Guests</option><option>6 Guests</option><option>7 Guests</option><option>8+ Guests (please call)</option>
+              <option>1 Guest</option>
+              <option>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+              <option>5 Guests</option>
+              <option>6 Guests</option>
+              <option>7 Guests</option>
+              <option>8+ Guests (please call)</option>
             </select>
           </div>
-          <div class="form-group"><label for="notes">Special Requests</label><textarea id="notes" placeholder="Dietary requirements, occasions, seating preferences…"></textarea></div>
+          <div class="form-group">
+            <label for="notes">Special Requests</label>
+            <textarea id="notes" placeholder="Dietary requirements, occasions, seating preferences…"></textarea>
+          </div>
           <button type="submit" class="form-submit">Request Reservation</button>
         </form>
         <div class="form-success" id="formSuccess">
@@ -1121,6 +1274,7 @@
   </div>
 </section>
 
+<!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -1171,17 +1325,30 @@
   </div>
 </footer>
 
+<!-- ══════════ SCRIPTS ══════════ -->
 <script>
+  /* ── Nav scroll effect ── */
   const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
-  });
+  const heroBg = document.getElementById('heroBg');
+  const heroSection = document.getElementById('hero');
 
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    navbar.classList.toggle('scrolled', scrolled > 60);
+
+    /* ── Parallax hero background ── */
+    if (scrolled < heroSection.offsetHeight + 200) {
+      heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
+    }
+  }, { passive: true });
+
+  /* ── Mobile toggle ── */
   const navToggle = document.getElementById('navToggle');
   const navLinks  = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
+  /* ── Menu tabs ── */
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1191,6 +1358,7 @@
     });
   });
 
+  /* ── Scroll reveal ── */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1199,20 +1367,129 @@
       }
     });
   }, { threshold: 0.12 });
-
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+  /* ── Reservation form ── */
   function handleSubmit(e) {
     e.preventDefault();
     document.getElementById('bookingForm').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   }
 
+  /* ── Minimum date ── */
   const dateInput = document.getElementById('date');
   if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
+    dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
   }
+
+  /* ════════════════════════════════════════════
+     FALLING LEAVES / PARTICLE ANIMATION
+  ════════════════════════════════════════════ */
+  (function () {
+    const canvas = document.getElementById('particleCanvas');
+    const ctx    = canvas.getContext('2d');
+    let leaves   = [];
+    let raf;
+
+    const COLORS = [
+      [201, 168, 76],   /* antique gold    */
+      [226, 192, 106],  /* light gold      */
+      [180, 130,  50],  /* dark amber      */
+      [210, 160,  60],  /* warm amber      */
+      [160,  80,  30],  /* burnt orange    */
+      [139,   0,   0],  /* crimson (rare)  */
+    ];
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+
+    class Leaf {
+      constructor(init) {
+        this.spawn(init);
+      }
+
+      spawn(init) {
+        this.x        = Math.random() * canvas.width;
+        this.y        = init ? Math.random() * canvas.height : -20;
+        this.size     = 3 + Math.random() * 9;
+        this.vy       = 0.4 + Math.random() * 1.1;
+        this.vx       = (Math.random() - 0.5) * 0.5;
+        this.angle    = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.045;
+        this.sway     = Math.random() * Math.PI * 2;
+        this.swaySpd  = 0.008 + Math.random() * 0.018;
+        this.swayAmt  = 0.5 + Math.random() * 1.5;
+        this.alpha    = 0.25 + Math.random() * 0.55;
+        const c       = COLORS[Math.floor(Math.random() * COLORS.length)];
+        this.r = c[0]; this.g = c[1]; this.b = c[2];
+      }
+
+      update() {
+        this.sway  += this.swaySpd;
+        this.x     += this.vx + Math.sin(this.sway) * this.swayAmt;
+        this.y     += this.vy;
+        this.angle += this.rotSpeed;
+        if (this.y > canvas.height + 30) this.spawn(false);
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.globalAlpha = this.alpha;
+
+        const s = this.size;
+        const fill   = `rgba(${this.r},${this.g},${this.b},${this.alpha})`;
+        const stroke = `rgba(${this.r},${this.g},${this.b},${this.alpha * 0.55})`;
+
+        /* leaf body — pointed ellipse */
+        ctx.beginPath();
+        ctx.moveTo(0, -s);
+        ctx.bezierCurveTo( s * 0.9, -s * 0.4,  s * 0.9,  s * 0.4, 0,  s);
+        ctx.bezierCurveTo(-s * 0.9,  s * 0.4, -s * 0.9, -s * 0.4, 0, -s);
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+
+        /* centre vein */
+        ctx.beginPath();
+        ctx.moveTo(0, -s);
+        ctx.lineTo(0,  s);
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth   = 0.7;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+    }
+
+    function init() {
+      resize();
+      const count = Math.max(30, Math.min(80, Math.floor(canvas.width / 18)));
+      leaves = Array.from({ length: count }, () => new Leaf(true));
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      leaves.forEach(l => { l.update(); l.draw(); });
+      raf = requestAnimationFrame(loop);
+    }
+
+    init();
+    loop();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        cancelAnimationFrame(raf);
+        init();
+        loop();
+      }, 200);
+    });
+  })();
 </script>
 </body>
 </html>
