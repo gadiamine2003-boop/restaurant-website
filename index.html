@@ -154,7 +154,9 @@
     .hero-bg {
       position: absolute;
       top: -30%; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(139,0,0,.92) 0%, rgba(26,18,9,.98) 60%, rgba(10,5,2,1) 100%);
+      background:
+        linear-gradient(160deg, rgba(139,0,0,.72) 0%, rgba(26,18,9,.88) 100%),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
       animation: slowZoom 20s ease-in-out infinite alternate;
       will-change: transform;
     }
@@ -315,33 +317,9 @@
     .about-img {
       width: 100%;
       aspect-ratio: 4/5;
+      object-fit: cover;
       border-radius: 3px;
       display: block;
-    }
-
-    .about-img.placeholder {
-      background: linear-gradient(135deg, #3a1a1a 0%, #1a0a0a 40%, #2d1a0a 70%, #1a1209 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about-img.placeholder::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 30% 40%, rgba(139,0,0,.3) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 70%, rgba(201,168,76,.15) 0%, transparent 50%);
-    }
-
-    .about-img.placeholder::after {
-      content: '✦';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 4rem;
-      color: rgba(201,168,76,.25);
     }
 
     .about-img-frame {
@@ -452,11 +430,8 @@
     .menu-card-img {
       width: 100%;
       height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.5rem;
-      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
     }
 
     .menu-card-body { padding: 1.3rem 1.4rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
@@ -523,32 +498,11 @@
     .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
     .gallery-item:nth-child(4) { grid-column: span 2; }
 
-    .gallery-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: .6rem;
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
       transition: transform .5s ease;
-      position: relative;
-    }
-
-    .gallery-placeholder-icon {
-      font-size: 2.2rem;
-      opacity: .7;
-      position: relative;
-      z-index: 1;
-    }
-
-    .gallery-placeholder-label {
-      font-size: .72rem;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.6);
-      position: relative;
-      z-index: 1;
     }
 
     .gallery-item::after {
@@ -560,7 +514,7 @@
       transition: opacity .3s;
     }
 
-    .gallery-item:hover .gallery-placeholder { transform: scale(1.07); }
+    .gallery-item:hover img { transform: scale(1.07); }
     .gallery-item:hover::after { opacity: 1; }
 
     /* ── TESTIMONIALS ── */
@@ -612,13 +566,8 @@
     .author-avatar {
       width: 44px; height: 44px;
       border-radius: 50%;
+      object-fit: cover;
       border: 2px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .75rem;
-      font-weight: 700;
-      color: #fff;
       flex-shrink: 0;
     }
     .author-name { font-weight: 700; font-size: .88rem; color: var(--dark); }
@@ -626,7 +575,9 @@
 
     /* ── RESERVATION ── */
     #reservation {
-      background: linear-gradient(135deg, rgba(139,0,0,.95) 0%, rgba(80,10,10,.97) 40%, rgba(26,18,9,1) 100%);
+      background:
+        linear-gradient(135deg, rgba(139,0,0,.9) 0%, rgba(26,18,9,.95) 100%),
+        url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1400&q=80') center/cover no-repeat;
     }
 
     .reservation-inner {
@@ -905,7 +856,12 @@
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap reveal">
-        <div class="about-img placeholder"></div>
+        <img
+          class="about-img"
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80"
+          alt="Интерьер ресторана Золотой Орёл"
+          loading="lazy"
+        />
         <div class="about-img-frame"></div>
         <div class="about-badge"><span class="year">30</span><span class="since">Лет совершенства</span></div>
       </div>
@@ -944,7 +900,7 @@
     <!-- ЗАКУСКИ -->
     <div class="menu-panel active" id="tab-starters">
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#4a2010 50%,#1a0a0a 100%)"><span>🥞</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=70" alt="Блины с икрой" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Блины с икрой</span>
@@ -955,7 +911,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a2a1a 0%,#2a4a2a 50%,#0a1a0a 100%)"><span>🥗</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=70" alt="Салат Оливье" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Салат Оливье</span>
@@ -966,7 +922,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#3a2a1a 50%,#1a1209 100%)"><span>🥟</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&q=70" alt="Сибирские пельмени" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Сибирские пельмени</span>
@@ -977,7 +933,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a1a 0%,#3a1a2a 50%,#2a0a1a 100%)"><span>🐟</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=70" alt="Селёдка под шубой" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Селёдка под шубой</span>
@@ -992,7 +948,7 @@
     <!-- ГЛАВНЫЕ БЛЮДА -->
     <div class="menu-panel" id="tab-mains">
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#3a1a0a 0%,#5a2a10 50%,#2a0a0a 100%)"><span>🥩</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=70" alt="Бефстроганов" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Бефстроганов</span>
@@ -1003,7 +959,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a2a0a 0%,#4a3a10 50%,#1a1a0a 100%)"><span>🍗</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=70" alt="Котлета по-киевски" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Котлета по-киевски</span>
@@ -1014,7 +970,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a2a 0%,#2a2a4a 50%,#0a0a2a 100%)"><span>🍚</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1604908177453-7462950a8a3b?w=600&q=70" alt="Плов из баранины" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Плов из баранины</span>
@@ -1025,7 +981,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a1a2a 0%,#1a2a4a 50%,#0a0a1a 100%)"><span>🐟</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=70" alt="Кулебяка с лососем" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Кулебяка с лососем</span>
@@ -1040,7 +996,7 @@
     <!-- СУПЫ -->
     <div class="menu-panel" id="tab-soups">
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#3a0a0a 0%,#5a1a1a 50%,#2a0a0a 100%)"><span>🍲</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=70" alt="Борщ классический" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Борщ классический</span>
@@ -1051,7 +1007,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a0a 0%,#2a2a1a 50%,#0a0a0a 100%)"><span>🥣</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=70" alt="Солянка" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Солянка</span>
@@ -1062,7 +1018,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a1a2a 0%,#1a2a3a 50%,#0a0a1a 100%)"><span>🐠</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1606756790138-261d2b21cd75?w=600&q=70" alt="Уха" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Уха</span>
@@ -1077,7 +1033,7 @@
     <!-- ДЕСЕРТЫ -->
     <div class="menu-panel" id="tab-desserts">
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#4a3a1a 50%,#1a0a0a 100%)"><span>🍰</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=70" alt="Медовик" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Медовик</span>
@@ -1088,7 +1044,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a1a 0%,#3a1a2a 50%,#0a0a1a 100%)"><span>🎂</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=70" alt="Шарлотка с яблоками" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Шарлотка с яблоками</span>
@@ -1099,7 +1055,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 50%,#0a0a0a 100%)"><span>🍫</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=70" alt="Птичье молоко" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Птичье молоко</span>
@@ -1114,7 +1070,7 @@
     <!-- НАПИТКИ -->
     <div class="menu-panel" id="tab-drinks">
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a0a2a 0%,#1a1a4a 50%,#0a0a1a 100%)"><span>🥃</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=600&q=70" alt="Дегустация водки" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Дегустация водки</span>
@@ -1125,7 +1081,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a0a 0%,#2a2a10 50%,#0a0a0a 100%)"><span>🍺</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70" alt="Домашний квас" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Домашний квас</span>
@@ -1136,7 +1092,7 @@
         </div>
       </div>
       <div class="menu-card reveal">
-        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a0a 0%,#3a1a0a 50%,#0a0a0a 100%)"><span>☕</span></div>
+        <img class="menu-card-img" src="https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=600&q=70" alt="Чай из самовара" loading="lazy" />
         <div class="menu-card-body">
           <div class="menu-card-head">
             <span class="menu-card-name">Чай из самовара</span>
@@ -1157,34 +1113,19 @@
     <h2 class="section-title reveal">Наша <span>Атмосфера</span></h2>
     <div class="gallery-grid">
       <div class="gallery-item reveal">
-        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#2a0a0a 0%,#4a1a0a 35%,#1a0a0a 70%,#0a0505 100%)">
-          <span class="gallery-placeholder-icon">🏛</span>
-          <span class="gallery-placeholder-label">Зал ресторана</span>
-        </div>
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Зал ресторана" loading="lazy" />
       </div>
       <div class="gallery-item reveal">
-        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#1a1a0a 0%,#3a2a0a 50%,#0a0a0a 100%)">
-          <span class="gallery-placeholder-icon">🕯</span>
-          <span class="gallery-placeholder-label">Сервировка</span>
-        </div>
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80" alt="Сервировка" loading="lazy" />
       </div>
       <div class="gallery-item reveal">
-        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#0a1a1a 0%,#0a2a2a 50%,#0a0a0a 100%)">
-          <span class="gallery-placeholder-icon">👨‍🍳</span>
-          <span class="gallery-placeholder-label">Наш шеф</span>
-        </div>
+        <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=500&q=80" alt="Наш шеф" loading="lazy" />
       </div>
       <div class="gallery-item reveal">
-        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#0a0a1a 0%,#1a0a2a 50%,#0a0a0a 100%)">
-          <span class="gallery-placeholder-icon">🍸</span>
-          <span class="gallery-placeholder-label">Коктейли</span>
-        </div>
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=900&q=80" alt="Коктейли" loading="lazy" />
       </div>
       <div class="gallery-item reveal">
-        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#1a0a0a 0%,#2a0a1a 50%,#0a0a0a 100%)">
-          <span class="gallery-placeholder-icon">✨</span>
-          <span class="gallery-placeholder-label">Вечерний свет</span>
-        </div>
+        <img src="https://images.unsplash.com/photo-1481931715705-36f5f19d7742?w=500&q=80" alt="Вечерний свет" loading="lazy" />
       </div>
     </div>
   </div>
@@ -1203,7 +1144,7 @@
         <div class="stars">★★★★★</div>
         <p class="testimonial-text">«Бефстроганов перенёс меня прямо в Санкт-Петербург. Глубина вкуса, нежность мяса — это кулинария, в которой живёт память и любовь.»</p>
         <div class="testimonial-author">
-          <div class="author-avatar" style="background:linear-gradient(135deg,#8B0000,#C9A84C)">СМ</div>
+          <img class="author-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=70" alt="Софи М." loading="lazy" />
           <div><div class="author-name">Софи М.</div><div class="author-location">Нью-Йорк, США</div></div>
         </div>
       </div>
@@ -1211,7 +1152,7 @@
         <div class="stars">★★★★★</div>
         <p class="testimonial-text">«Атмосфера поразительна — тёмное дерево, свечи и тихий перебор балалайки. Вечер в «Золотом Орле» — не ужин, это впечатление на годы.»</p>
         <div class="testimonial-author">
-          <div class="author-avatar" style="background:linear-gradient(135deg,#1a3a5a,#2a5a8a)">ДК</div>
+          <img class="author-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=70" alt="Джеймс К." loading="lazy" />
           <div><div class="author-name">Джеймс К.</div><div class="author-location">Бостон, США</div></div>
         </div>
       </div>
@@ -1219,7 +1160,7 @@
         <div class="stars">★★★★★</div>
         <p class="testimonial-text">«Для меня, человека с русскими корнями, это ощущение возвращения домой. Медовик — точно такой, как пекла бабушка. Спасибо за сохранение традиций.»</p>
         <div class="testimonial-author">
-          <div class="author-avatar" style="background:linear-gradient(135deg,#3a1a5a,#6a2a8a)">НР</div>
+          <img class="author-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=70" alt="Наташа Р." loading="lazy" />
           <div><div class="author-name">Наташа Р.</div><div class="author-location">Бруклин, США</div></div>
         </div>
       </div>
