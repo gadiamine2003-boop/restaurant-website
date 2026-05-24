@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Золотой Орёл — Golden Eagle Russian Restaurant</title>
+  <title>Золотой Орёл — Ресторан русской кухни</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <style>
@@ -154,9 +154,7 @@
     .hero-bg {
       position: absolute;
       top: -30%; left: 0; right: 0; bottom: 0;
-      background:
-        linear-gradient(160deg, rgba(139,0,0,.72) 0%, rgba(26,18,9,.88) 100%),
-        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
+      background: linear-gradient(160deg, rgba(139,0,0,.92) 0%, rgba(26,18,9,.98) 60%, rgba(10,5,2,1) 100%);
       animation: slowZoom 20s ease-in-out infinite alternate;
       will-change: transform;
     }
@@ -317,9 +315,33 @@
     .about-img {
       width: 100%;
       aspect-ratio: 4/5;
-      object-fit: cover;
       border-radius: 3px;
       display: block;
+    }
+
+    .about-img.placeholder {
+      background: linear-gradient(135deg, #3a1a1a 0%, #1a0a0a 40%, #2d1a0a 70%, #1a1209 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-img.placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(139,0,0,.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 70%, rgba(201,168,76,.15) 0%, transparent 50%);
+    }
+
+    .about-img.placeholder::after {
+      content: '✦';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: rgba(201,168,76,.25);
     }
 
     .about-img-frame {
@@ -430,8 +452,11 @@
     .menu-card-img {
       width: 100%;
       height: 200px;
-      object-fit: cover;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      flex-shrink: 0;
     }
 
     .menu-card-body { padding: 1.3rem 1.4rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
@@ -498,11 +523,32 @@
     .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
     .gallery-item:nth-child(4) { grid-column: span 2; }
 
-    .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
       transition: transform .5s ease;
+      position: relative;
+    }
+
+    .gallery-placeholder-icon {
+      font-size: 2.2rem;
+      opacity: .7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gallery-placeholder-label {
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      position: relative;
+      z-index: 1;
     }
 
     .gallery-item::after {
@@ -514,7 +560,7 @@
       transition: opacity .3s;
     }
 
-    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-item:hover .gallery-placeholder { transform: scale(1.07); }
     .gallery-item:hover::after { opacity: 1; }
 
     /* ── TESTIMONIALS ── */
@@ -566,17 +612,21 @@
     .author-avatar {
       width: 44px; height: 44px;
       border-radius: 50%;
-      object-fit: cover;
       border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
     }
     .author-name { font-weight: 700; font-size: .88rem; color: var(--dark); }
     .author-location { font-size: .75rem; color: var(--muted); }
 
     /* ── RESERVATION ── */
     #reservation {
-      background:
-        linear-gradient(135deg, rgba(139,0,0,.9) 0%, rgba(26,18,9,.95) 100%),
-        url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1400&q=80') center/cover no-repeat;
+      background: linear-gradient(135deg, rgba(139,0,0,.95) 0%, rgba(80,10,10,.97) 40%, rgba(26,18,9,1) 100%);
     }
 
     .reservation-inner {
@@ -812,374 +862,384 @@
 </head>
 <body>
 
-<!-- ══════════ NAVIGATION ══════════ -->
+<!-- ══════════ НАВИГАЦИЯ ══════════ -->
 <nav id="navbar">
   <div class="nav-logo">
-    <span class="en">Golden Eagle</span>
-    <span class="ru">Золотой Орёл</span>
+    <span class="en">Золотой Орёл</span>
+    <span class="ru">Golden Eagle · с 1994</span>
   </div>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#about">Our Story</a></li>
-    <li><a href="#menu">Menu</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
-    <li><a href="#reservation" class="nav-reserve">Reserve a Table</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#menu">Меню</a></li>
+    <li><a href="#gallery">Галерея</a></li>
+    <li><a href="#testimonials">Отзывы</a></li>
+    <li><a href="#reservation" class="nav-reserve">Забронировать стол</a></li>
   </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+  <button class="nav-toggle" id="navToggle" aria-label="Открыть меню навигации">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- ══════════ ГЛАВНАЯ СТРАНИЦА ══════════ -->
 <section id="hero">
   <div class="hero-bg" id="heroBg"></div>
   <canvas id="particleCanvas"></canvas>
   <div class="hero-ornament"></div>
   <div class="hero-content">
-    <div class="hero-badge">Est. 1994 · Moscow &amp; New York</div>
-    <h1 class="hero-title">A Journey Through<br><span class="accent">Russian Cuisine</span></h1>
-    <p class="hero-subtitle">Where imperial tradition meets modern artistry</p>
+    <div class="hero-badge">Осн. 1994 · Москва &amp; Нью-Йорк</div>
+    <h1 class="hero-title">Путешествие по<br><span class="accent">Русской кухне</span></h1>
+    <p class="hero-subtitle">Где имперские традиции встречают современное мастерство</p>
     <div class="hero-cta">
-      <a href="#menu" class="btn-primary">Explore Our Menu</a>
-      <a href="#reservation" class="btn-outline">Book a Table</a>
+      <a href="#menu" class="btn-primary">Изучить меню</a>
+      <a href="#reservation" class="btn-outline">Забронировать стол</a>
     </div>
   </div>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
-    Discover
+    Открыть
   </div>
 </section>
 
-<!-- ══════════ ABOUT ══════════ -->
+<!-- ══════════ О НАС ══════════ -->
 <section id="about">
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap reveal">
-        <img
-          class="about-img"
-          src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=80"
-          alt="Interior of Golden Eagle restaurant"
-          loading="lazy"
-        />
+        <div class="about-img placeholder"></div>
         <div class="about-img-frame"></div>
-        <div class="about-badge"><span class="year">30</span><span class="since">Years of Excellence</span></div>
+        <div class="about-badge"><span class="year">30</span><span class="since">Лет совершенства</span></div>
       </div>
       <div class="about-text reveal">
-        <p class="section-label">Our Story</p>
-        <h2 class="section-title">Rooted in<br><span>Russian Heritage</span></h2>
+        <p class="section-label">Наша история</p>
+        <h2 class="section-title">Уходящие корнями в<br><span>Русское наследие</span></h2>
         <div class="divider"><span class="divider-icon">✦</span></div>
-        <p>Golden Eagle was born from a deep love for the rich culinary tapestry of Russia — a land where food is ceremony, warmth, and storytelling woven into every dish. Founded by Chef Alexei Volkov in 1994, we have brought the grandeur of the imperial table to modern dining.</p>
-        <p>Every recipe carries the soul of a grandmother's kitchen, refined through classical technique and the finest seasonal ingredients sourced from both Russian farms and the world's best purveyors. From the golden depths of our Borscht to the delicate layers of our Beef Stroganoff, each plate is a letter home.</p>
+        <p>«Золотой Орёл» родился из глубокой любви к богатому кулинарному полотну России — страны, где еда — это церемония, тепло и повествование, вплетённое в каждое блюдо. Основанный шеф-поваром Алексеем Волковым в 1994 году, ресторан перенёс величие императорского стола в современную гастрономию.</p>
+        <p>В каждом рецепте живёт душа бабушкиной кухни, отточенная классической техникой и лучшими сезонными ингредиентами с российских ферм и от лучших поставщиков мира. От золотистых глубин нашего борща до нежных слоёв бефстроганова — каждая тарелка — это письмо домой.</p>
         <div class="about-stats">
-          <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Years Open</div></div>
-          <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Awards</div></div>
-          <div class="stat-item"><div class="stat-num">60k+</div><div class="stat-label">Guests Served</div></div>
+          <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Лет работы</div></div>
+          <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Наград</div></div>
+          <div class="stat-item"><div class="stat-num">60k+</div><div class="stat-label">Гостей</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ MENU ══════════ -->
+<!-- ══════════ МЕНЮ ══════════ -->
 <section id="menu">
   <div class="container">
     <div class="menu-header reveal">
-      <p class="section-label">Culinary Tradition</p>
-      <h2 class="section-title">Our <span>Menu</span></h2>
+      <p class="section-label">Кулинарные традиции</p>
+      <h2 class="section-title">Наше <span>Меню</span></h2>
       <div class="divider"><span class="divider-icon">✦</span></div>
     </div>
     <div class="menu-tabs reveal">
-      <button class="tab-btn active" data-tab="starters">Starters</button>
-      <button class="tab-btn" data-tab="mains">Mains</button>
-      <button class="tab-btn" data-tab="soups">Soups</button>
-      <button class="tab-btn" data-tab="desserts">Desserts</button>
-      <button class="tab-btn" data-tab="drinks">Drinks</button>
+      <button class="tab-btn active" data-tab="starters">Закуски</button>
+      <button class="tab-btn" data-tab="mains">Главные блюда</button>
+      <button class="tab-btn" data-tab="soups">Супы</button>
+      <button class="tab-btn" data-tab="desserts">Десерты</button>
+      <button class="tab-btn" data-tab="drinks">Напитки</button>
     </div>
 
-    <!-- STARTERS -->
+    <!-- ЗАКУСКИ -->
     <div class="menu-panel active" id="tab-starters">
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab?w=600&q=70" alt="Blini" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#4a2010 50%,#1a0a0a 100%)"><span>🥞</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Blini with Caviar</span>
+            <span class="menu-card-name">Блины с икрой</span>
             <span class="menu-card-price">2 800 ₽</span>
           </div>
-          <p class="menu-card-desc">Delicate buckwheat crepes served warm with Ossetra caviar, crème fraîche, and a garnish of fresh dill.</p>
-          <span class="menu-card-tag">Chef's Favourite</span>
+          <p class="menu-card-desc">Нежные гречневые блины, подаваемые тёплыми с икрой осетра, крем-фрешем и веточкой свежего укропа.</p>
+          <span class="menu-card-tag">Любимое блюдо шефа</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&q=70" alt="Olivier Salad" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a2a1a 0%,#2a4a2a 50%,#0a1a0a 100%)"><span>🥗</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Olivier Salad</span>
+            <span class="menu-card-name">Салат Оливье</span>
             <span class="menu-card-price">1 600 ₽</span>
           </div>
-          <p class="menu-card-desc">The classic Russian salad — tender potato, carrot, peas, gherkins, egg, and chicken bound in house-made mayonnaise.</p>
-          <span class="menu-card-tag">Traditional</span>
+          <p class="menu-card-desc">Классический русский салат — нежный картофель, морковь, горошек, корнишоны, яйцо и курица в домашнем майонезе.</p>
+          <span class="menu-card-tag">Традиционное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1551218372-a8789b81b253?w=600&q=70" alt="Pelmeni" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#3a2a1a 50%,#1a1209 100%)"><span>🥟</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Siberian Pelmeni</span>
+            <span class="menu-card-name">Сибирские пельмени</span>
             <span class="menu-card-price">2 200 ₽</span>
           </div>
-          <p class="menu-card-desc">Hand-folded dumplings filled with a blend of pork and veal, served in a rich bouillon with smetana.</p>
-          <span class="menu-card-tag">Signature</span>
+          <p class="menu-card-desc">Пельмени ручной лепки с начинкой из свинины и телятины, поданные в наваристом бульоне со сметаной.</p>
+          <span class="menu-card-tag">Фирменное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=600&q=70" alt="Herring" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a1a 0%,#3a1a2a 50%,#2a0a1a 100%)"><span>🐟</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Dressed Herring</span>
+            <span class="menu-card-name">Селёдка под шубой</span>
             <span class="menu-card-price">1 800 ₽</span>
           </div>
-          <p class="menu-card-desc">Layers of lightly salted herring, potato, carrot, onion and beetroot draped in a velvet coat of smetana mayonnaise.</p>
-          <span class="menu-card-tag">Traditional</span>
+          <p class="menu-card-desc">Слои малосольной сельди, картофеля, моркови, лука и свёклы, покрытые бархатным слоем майонеза со сметаной.</p>
+          <span class="menu-card-tag">Традиционное</span>
         </div>
       </div>
     </div>
 
-    <!-- MAINS -->
+    <!-- ГЛАВНЫЕ БЛЮДА -->
     <div class="menu-panel" id="tab-mains">
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=70" alt="Beef Stroganoff" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#3a1a0a 0%,#5a2a10 50%,#2a0a0a 100%)"><span>🥩</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Beef Stroganoff</span>
+            <span class="menu-card-name">Бефстроганов</span>
             <span class="menu-card-price">4 200 ₽</span>
           </div>
-          <p class="menu-card-desc">Filet of Wagyu tenderloin sautéed with forest mushrooms in a cognac-cream sauce, served over house-made buckwheat noodles.</p>
-          <span class="menu-card-tag">Chef's Favourite</span>
+          <p class="menu-card-desc">Филе вагю, обжаренное с лесными грибами в коньячно-сливочном соусе, подаётся с домашней гречневой лапшой.</p>
+          <span class="menu-card-tag">Любимое блюдо шефа</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=70" alt="Chicken Kiev" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a2a0a 0%,#4a3a10 50%,#1a1a0a 100%)"><span>🍗</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Chicken Kyiv</span>
+            <span class="menu-card-name">Котлета по-киевски</span>
             <span class="menu-card-price">3 800 ₽</span>
           </div>
-          <p class="menu-card-desc">Free-range chicken breast filled with herb butter, encased in a golden breadcrumb crust and served with whipped potato.</p>
-          <span class="menu-card-tag">Classic</span>
+          <p class="menu-card-desc">Куриная грудка фермерской птицы с начинкой из травяного масла в золотистой хрустящей панировке с пюре.</p>
+          <span class="menu-card-tag">Классическое</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=70" alt="Lamb Plov" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a2a 0%,#2a2a4a 50%,#0a0a2a 100%)"><span>🍚</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Lamb Plov</span>
+            <span class="menu-card-name">Плов из баранины</span>
             <span class="menu-card-price">3 600 ₽</span>
           </div>
-          <p class="menu-card-desc">Slow-cooked Uzbek-style rice pilaf with braised lamb shoulder, golden onion, carrot and warm spices, finished with barberries.</p>
-          <span class="menu-card-tag">Seasonal</span>
+          <p class="menu-card-desc">Рис по-узбекски, медленно тушенный с бараниной, золотистым луком, морковью и пряностями, с барбарисом.</p>
+          <span class="menu-card-tag">Сезонное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600&q=70" alt="Salmon" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a1a2a 0%,#1a2a4a 50%,#0a0a1a 100%)"><span>🐟</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Wild Salmon Coulibiac</span>
+            <span class="menu-card-name">Кулебяка с лососем</span>
             <span class="menu-card-price">4 600 ₽</span>
           </div>
-          <p class="menu-card-desc">A masterpiece of Russian pastry craft: wild Kamchatka salmon, duxelles, rice and egg baked in a saffron brioche crust.</p>
-          <span class="menu-card-tag">Signature</span>
+          <p class="menu-card-desc">Шедевр русского кулинарного искусства: дикий лосось с Камчатки, дюксель, рис и яйцо в шафрановой бриошь-корочке.</p>
+          <span class="menu-card-tag">Фирменное</span>
         </div>
       </div>
     </div>
 
-    <!-- SOUPS -->
+    <!-- СУПЫ -->
     <div class="menu-panel" id="tab-soups">
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=70" alt="Borscht" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#3a0a0a 0%,#5a1a1a 50%,#2a0a0a 100%)"><span>🍲</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Classic Borscht</span>
+            <span class="menu-card-name">Борщ классический</span>
             <span class="menu-card-price">1 400 ₽</span>
           </div>
-          <p class="menu-card-desc">Deep crimson beet soup with tender braised beef, cabbage, potato and a generous dollop of cold smetana and dill.</p>
-          <span class="menu-card-tag">National Dish</span>
+          <p class="menu-card-desc">Насыщенный свекольный суп с нежной тушёной говядиной, капустой, картофелем, сметаной и укропом.</p>
+          <span class="menu-card-tag">Национальное блюдо</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=70" alt="Solyanka" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a0a 0%,#2a2a1a 50%,#0a0a0a 100%)"><span>🥣</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Solyanka</span>
+            <span class="menu-card-name">Солянка</span>
             <span class="menu-card-price">1 600 ₽</span>
           </div>
-          <p class="menu-card-desc">A robust, slightly sour soup of assorted cured meats, olives, capers, lemon and fragrant herbs — a true Russian cure-all.</p>
-          <span class="menu-card-tag">Traditional</span>
+          <p class="menu-card-desc">Наваристый кисловатый суп из мясного ассорти, маслин, каперсов, лимона и ароматных трав — истинное русское лекарство.</p>
+          <span class="menu-card-tag">Традиционное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1604152135912-04a022e23696?w=600&q=70" alt="Ukha" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a1a2a 0%,#1a2a3a 50%,#0a0a1a 100%)"><span>🐠</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Ukha Fish Soup</span>
+            <span class="menu-card-name">Уха</span>
             <span class="menu-card-price">1 800 ₽</span>
           </div>
-          <p class="menu-card-desc">A crystal-clear broth of fresh pike-perch, salmon and trout, fragrant with bay leaf, allspice and garden herbs.</p>
-          <span class="menu-card-tag">Seasonal</span>
+          <p class="menu-card-desc">Прозрачный бульон из свежего судака, лосося и форели, ароматизированный лавровым листом, душистым перцем и зеленью.</p>
+          <span class="menu-card-tag">Сезонное</span>
         </div>
       </div>
     </div>
 
-    <!-- DESSERTS -->
+    <!-- ДЕСЕРТЫ -->
     <div class="menu-panel" id="tab-desserts">
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=70" alt="Honey Cake" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#2a1a0a 0%,#4a3a1a 50%,#1a0a0a 100%)"><span>🍰</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Medovik Honey Cake</span>
+            <span class="menu-card-name">Медовик</span>
             <span class="menu-card-price">1 300 ₽</span>
           </div>
-          <p class="menu-card-desc">Twenty paper-thin honey sponge layers stacked with velvety smetana cream — Russia's most beloved dessert.</p>
-          <span class="menu-card-tag">Most Popular</span>
+          <p class="menu-card-desc">Двадцать тончайших медовых коржей, прослоённых нежным сметанным кремом — самый любимый десерт России.</p>
+          <span class="menu-card-tag">Самое популярное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=70" alt="Charlotte" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a1a 0%,#3a1a2a 50%,#0a0a1a 100%)"><span>🎂</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Apple Charlotte</span>
+            <span class="menu-card-name">Шарлотка с яблоками</span>
             <span class="menu-card-price">1 100 ₽</span>
           </div>
-          <p class="menu-card-desc">Warm baked apple sponge with cinnamon, dusted in icing sugar and served alongside vanilla bean ice cream.</p>
-          <span class="menu-card-tag">Home Style</span>
+          <p class="menu-card-desc">Тёплый яблочный бисквит с корицей, посыпанный сахарной пудрой и поданный с ванильным мороженым.</p>
+          <span class="menu-card-tag">Домашнее</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=70" alt="Ptichye Moloko" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 50%,#0a0a0a 100%)"><span>🍫</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Bird's Milk Cake</span>
+            <span class="menu-card-name">Птичье молоко</span>
             <span class="menu-card-price">1 400 ₽</span>
           </div>
-          <p class="menu-card-desc">The legendary Ptichye Moloko — an airy agar soufflé sandwiched in dark chocolate sponge, glazed in bittersweet couverture.</p>
-          <span class="menu-card-tag">Signature</span>
+          <p class="menu-card-desc">Легендарный торт «Птичье молоко» — воздушное агаровое суфле в шоколадном бисквите, глазированное горьким шоколадом.</p>
+          <span class="menu-card-tag">Фирменное</span>
         </div>
       </div>
     </div>
 
-    <!-- DRINKS -->
+    <!-- НАПИТКИ -->
     <div class="menu-panel" id="tab-drinks">
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1542574621-e088a4464f7e?w=600&q=70" alt="Vodka" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#0a0a2a 0%,#1a1a4a 50%,#0a0a1a 100%)"><span>🥃</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Craft Vodka Flight</span>
+            <span class="menu-card-name">Дегустация водки</span>
             <span class="menu-card-price">3 400 ₽</span>
           </div>
-          <p class="menu-card-desc">A curated tasting of three premium Russian vodkas — wheat, rye and potato — served over hand-chipped ice.</p>
-          <span class="menu-card-tag">Signature</span>
+          <p class="menu-card-desc">Подборка из трёх сортов премиальной российской водки — пшеничная, ржаная и картофельная — на колотом льду.</p>
+          <span class="menu-card-tag">Фирменное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=70" alt="Kvass" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a0a 0%,#2a2a10 50%,#0a0a0a 100%)"><span>🍺</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">House-Fermented Kvass</span>
+            <span class="menu-card-name">Домашний квас</span>
             <span class="menu-card-price">900 ₽</span>
           </div>
-          <p class="menu-card-desc">Our chef's own lightly fermented rye bread drink, naturally sparkling with hints of malt, raisin and a whisper of mint.</p>
-          <span class="menu-card-tag">Non-Alcoholic</span>
+          <p class="menu-card-desc">Собственный слабоферментированный напиток из ржаного хлеба, естественно газированный с нотками солода, изюма и мяты.</p>
+          <span class="menu-card-tag">Безалкогольное</span>
         </div>
       </div>
       <div class="menu-card reveal">
-        <img class="menu-card-img" src="https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=600&q=70" alt="Tea" loading="lazy" />
+        <div class="menu-card-img" style="background:linear-gradient(135deg,#1a0a0a 0%,#3a1a0a 50%,#0a0a0a 100%)"><span>☕</span></div>
         <div class="menu-card-body">
           <div class="menu-card-head">
-            <span class="menu-card-name">Samovar Black Tea</span>
+            <span class="menu-card-name">Чай из самовара</span>
             <span class="menu-card-price">700 ₽</span>
           </div>
-          <p class="menu-card-desc">Strong loose-leaf Ivan Chai served in the traditional manner from a gleaming samovar, with jam and a cube of sugar.</p>
-          <span class="menu-card-tag">Traditional</span>
+          <p class="menu-card-desc">Крепкий листовой иван-чай, поданный по традиции из блестящего самовара, с вареньем и кусочком сахара.</p>
+          <span class="menu-card-tag">Традиционное</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ GALLERY ══════════ -->
+<!-- ══════════ ГАЛЕРЕЯ ══════════ -->
 <section id="gallery">
   <div class="container">
-    <p class="section-label reveal">Inside Golden Eagle</p>
-    <h2 class="section-title reveal">Our <span>Atmosphere</span></h2>
+    <p class="section-label reveal">Внутри Золотого Орла</p>
+    <h2 class="section-title reveal">Наша <span>Атмосфера</span></h2>
     <div class="gallery-grid">
       <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Restaurant interior" loading="lazy" />
+        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#2a0a0a 0%,#4a1a0a 35%,#1a0a0a 70%,#0a0505 100%)">
+          <span class="gallery-placeholder-icon">🏛</span>
+          <span class="gallery-placeholder-label">Зал ресторана</span>
+        </div>
       </div>
       <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80" alt="Table setting" loading="lazy" />
+        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#1a1a0a 0%,#3a2a0a 50%,#0a0a0a 100%)">
+          <span class="gallery-placeholder-icon">🕯</span>
+          <span class="gallery-placeholder-label">Сервировка</span>
+        </div>
       </div>
       <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=500&q=80" alt="Chef at work" loading="lazy" />
+        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#0a1a1a 0%,#0a2a2a 50%,#0a0a0a 100%)">
+          <span class="gallery-placeholder-icon">👨‍🍳</span>
+          <span class="gallery-placeholder-label">Наш шеф</span>
+        </div>
       </div>
       <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=900&q=80" alt="Cocktails" loading="lazy" />
+        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#0a0a1a 0%,#1a0a2a 50%,#0a0a0a 100%)">
+          <span class="gallery-placeholder-icon">🍸</span>
+          <span class="gallery-placeholder-label">Коктейли</span>
+        </div>
       </div>
       <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1481931715705-36f5f19d7742?w=500&q=80" alt="Candlelight dining" loading="lazy" />
+        <div class="gallery-placeholder" style="background:linear-gradient(135deg,#1a0a0a 0%,#2a0a1a 50%,#0a0a0a 100%)">
+          <span class="gallery-placeholder-icon">✨</span>
+          <span class="gallery-placeholder-label">Вечерний свет</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ TESTIMONIALS ══════════ -->
+<!-- ══════════ ОТЗЫВЫ ══════════ -->
 <section id="testimonials">
   <div class="container">
     <div class="menu-header reveal">
-      <p class="section-label">Guest Voices</p>
-      <h2 class="section-title">What Our <span>Guests Say</span></h2>
+      <p class="section-label">Голоса гостей</p>
+      <h2 class="section-title">Что говорят <span>наши гости</span></h2>
       <div class="divider"><span class="divider-icon">✦</span></div>
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">“The Beef Stroganoff transported me straight to St. Petersburg. The depth of flavour, the tenderness of the meat — this is cooking that carries memory and love in every bite.”</p>
+        <p class="testimonial-text">«Бефстроганов перенёс меня прямо в Санкт-Петербург. Глубина вкуса, нежность мяса — это кулинария, в которой живёт память и любовь.»</p>
         <div class="testimonial-author">
-          <img class="author-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=70" alt="Sophie M." loading="lazy" />
-          <div><div class="author-name">Sophie M.</div><div class="author-location">New York, NY</div></div>
+          <div class="author-avatar" style="background:linear-gradient(135deg,#8B0000,#C9A84C)">СМ</div>
+          <div><div class="author-name">Софи М.</div><div class="author-location">Нью-Йорк, США</div></div>
         </div>
       </div>
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">“The atmosphere is extraordinary — all dark wood, candlelight and the gentle hum of a balalaika. An evening at Golden Eagle is not dinner; it is an experience you will talk about for years.”</p>
+        <p class="testimonial-text">«Атмосфера поразительна — тёмное дерево, свечи и тихий перебор балалайки. Вечер в «Золотом Орле» — не ужин, это впечатление на годы.»</p>
         <div class="testimonial-author">
-          <img class="author-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=70" alt="James K." loading="lazy" />
-          <div><div class="author-name">James K.</div><div class="author-location">Boston, MA</div></div>
+          <div class="author-avatar" style="background:linear-gradient(135deg,#1a3a5a,#2a5a8a)">ДК</div>
+          <div><div class="author-name">Джеймс К.</div><div class="author-location">Бостон, США</div></div>
         </div>
       </div>
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">“As someone of Russian heritage, this felt like coming home. The Medovik was exactly as my grandmother made it. Thank you for preserving these beautiful traditions with such artistry.”</p>
+        <p class="testimonial-text">«Для меня, человека с русскими корнями, это ощущение возвращения домой. Медовик — точно такой, как пекла бабушка. Спасибо за сохранение традиций.»</p>
         <div class="testimonial-author">
-          <img class="author-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=70" alt="Natasha R." loading="lazy" />
-          <div><div class="author-name">Natasha R.</div><div class="author-location">Brooklyn, NY</div></div>
+          <div class="author-avatar" style="background:linear-gradient(135deg,#3a1a5a,#6a2a8a)">НР</div>
+          <div><div class="author-name">Наташа Р.</div><div class="author-location">Бруклин, США</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ RESERVATION ══════════ -->
+<!-- ══════════ БРОНИРОВАНИЕ ══════════ -->
 <section id="reservation">
   <div class="container">
     <div class="reservation-inner">
       <div class="reservation-info reveal">
-        <p class="section-label" style="color:var(--gold-l)">Reserve Your Table</p>
-        <h2 class="section-title" style="color:#fff">Join Us for an<br><span>Unforgettable Evening</span></h2>
+        <p class="section-label" style="color:var(--gold-l)">Забронируйте стол</p>
+        <h2 class="section-title" style="color:#fff">Проведите с нами<br><span>Незабываемый вечер</span></h2>
         <div class="divider"><span class="divider-icon" style="color:var(--gold-l)">✦</span></div>
-        <p>We welcome you to experience the warmth and grandeur of Russian hospitality. For large parties of 8 or more, or for private events, please call us directly.</p>
+        <p>Приглашаем вас ощутить тепло и великолепие русского гостеприимства. Для больших компаний от 8 человек и частных мероприятий просим звонить напрямую.</p>
         <ul class="info-list">
           <li>
             <span class="info-icon">📍</span>
-            <span>42 Nevsky Promenade, New York, NY 10036</span>
+            <span>42 Невский Променад, Нью-Йорк, NY 10036</span>
           </li>
           <li>
             <span class="info-icon">📞</span>
@@ -1191,11 +1251,11 @@
           </li>
           <li>
             <span class="info-icon">🕐</span>
-            <span>Mon–Thu: 5 pm – 11 pm<br />Fri–Sat: 5 pm – Midnight<br />Sunday: 4 pm – 10 pm</span>
+            <span>Пн–Чт: 17:00 – 23:00<br />Пт–Сб: 17:00 – 00:00<br />Воскресенье: 16:00 – 22:00</span>
           </li>
           <li>
             <span class="info-icon">🎻</span>
-            <span>Live balalaika ensemble every Friday &amp; Saturday from 8 pm</span>
+            <span>Живой ансамбль балалайки каждую пятницу и субботу с 20:00</span>
           </li>
         </ul>
       </div>
@@ -1203,85 +1263,85 @@
         <form id="bookingForm" onsubmit="handleSubmit(event)">
           <div class="form-row">
             <div class="form-group">
-              <label for="fname">First Name</label>
-              <input type="text" id="fname" placeholder="Ivan" required />
+              <label for="fname">Имя</label>
+              <input type="text" id="fname" placeholder="Иван" required />
             </div>
             <div class="form-group">
-              <label for="lname">Last Name</label>
-              <input type="text" id="lname" placeholder="Volkov" required />
+              <label for="lname">Фамилия</label>
+              <input type="text" id="lname" placeholder="Волков" required />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">Эл. почта</label>
               <input type="email" id="email" placeholder="you@example.com" required />
             </div>
             <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" placeholder="+1 (212) 555-0100" />
+              <label for="phone">Телефон</label>
+              <input type="tel" id="phone" placeholder="+7 (495) 555-0100" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="date">Date</label>
+              <label for="date">Дата</label>
               <input type="date" id="date" required />
             </div>
             <div class="form-group">
-              <label for="time">Time</label>
+              <label for="time">Время</label>
               <select id="time" required>
-                <option value="" disabled selected>Select time</option>
-                <option>5:00 PM</option>
-                <option>5:30 PM</option>
-                <option>6:00 PM</option>
-                <option>6:30 PM</option>
-                <option>7:00 PM</option>
-                <option>7:30 PM</option>
-                <option>8:00 PM</option>
-                <option>8:30 PM</option>
-                <option>9:00 PM</option>
-                <option>9:30 PM</option>
-                <option>10:00 PM</option>
+                <option value="" disabled selected>Выберите время</option>
+                <option>17:00</option>
+                <option>17:30</option>
+                <option>18:00</option>
+                <option>18:30</option>
+                <option>19:00</option>
+                <option>19:30</option>
+                <option>20:00</option>
+                <option>20:30</option>
+                <option>21:00</option>
+                <option>21:30</option>
+                <option>22:00</option>
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label for="guests">Number of Guests</label>
+            <label for="guests">Количество гостей</label>
             <select id="guests" required>
-              <option value="" disabled selected>Select party size</option>
-              <option>1 Guest</option>
-              <option>2 Guests</option>
-              <option>3 Guests</option>
-              <option>4 Guests</option>
-              <option>5 Guests</option>
-              <option>6 Guests</option>
-              <option>7 Guests</option>
-              <option>8+ Guests (please call)</option>
+              <option value="" disabled selected>Выберите количество</option>
+              <option>1 гость</option>
+              <option>2 гостя</option>
+              <option>3 гостя</option>
+              <option>4 гостя</option>
+              <option>5 гостей</option>
+              <option>6 гостей</option>
+              <option>7 гостей</option>
+              <option>8+ гостей (позвоните нам)</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="notes">Special Requests</label>
-            <textarea id="notes" placeholder="Dietary requirements, occasions, seating preferences…"></textarea>
+            <label for="notes">Пожелания</label>
+            <textarea id="notes" placeholder="Диетические предпочтения, особые случаи, предпочтения по местам…"></textarea>
           </div>
-          <button type="submit" class="form-submit">Request Reservation</button>
+          <button type="submit" class="form-submit">Отправить заявку</button>
         </form>
         <div class="form-success" id="formSuccess">
           <div class="success-icon">🥂</div>
-          <h3>Спасибо! Thank You!</h3>
-          <p>Your reservation request has been received. We will confirm your booking within 2 hours via email. We look forward to welcoming you to Golden Eagle.</p>
+          <h3>Спасибо!</h3>
+          <p>Ваша заявка получена. Мы подтвердим бронирование в течение 2 часов по электронной почте. Будем рады приветствовать вас в «Золотом Орле».</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- ══════════ ПОДВАЛ ══════════ -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="brand-name">Golden Eagle</div>
-        <div class="brand-sub">Золотой Орёл · Since 1994</div>
-        <p>A celebration of Russian culinary heritage, crafted with love and served with the warmth of true hospitality.</p>
+        <div class="brand-name">Золотой Орёл</div>
+        <div class="brand-sub">Golden Eagle · с 1994</div>
+        <p>Праздник русского кулинарного наследия, приготовленный с любовью и поданный с теплом истинного гостеприимства.</p>
         <div class="footer-socials">
           <a href="#" class="social-link" aria-label="Instagram">𝐈</a>
           <a href="#" class="social-link" aria-label="Facebook">𝐟</a>
@@ -1290,44 +1350,44 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>Navigate</h4>
+        <h4>Навигация</h4>
         <ul>
-          <li><a href="#about">Our Story</a></li>
-          <li><a href="#menu">Menu</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#testimonials">Reviews</a></li>
-          <li><a href="#reservation">Reservations</a></li>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#menu">Меню</a></li>
+          <li><a href="#gallery">Галерея</a></li>
+          <li><a href="#testimonials">Отзывы</a></li>
+          <li><a href="#reservation">Бронирование</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Opening Hours</h4>
+        <h4>Часы работы</h4>
         <ul class="footer-hours">
-          <li><span class="day">Mon – Thu</span><span class="time">5–11 PM</span></li>
-          <li><span class="day">Friday</span><span class="time">5 PM–12 AM</span></li>
-          <li><span class="day">Saturday</span><span class="time">5 PM–12 AM</span></li>
-          <li><span class="day">Sunday</span><span class="time">4–10 PM</span></li>
+          <li><span class="day">Пн – Чт</span><span class="time">17–23</span></li>
+          <li><span class="day">Пятница</span><span class="time">17–00</span></li>
+          <li><span class="day">Суббота</span><span class="time">17–00</span></li>
+          <li><span class="day">Воскресенье</span><span class="time">16–22</span></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h4>Контакты</h4>
         <ul>
-          <li><a href="#">42 Nevsky Promenade</a></li>
-          <li><a href="#">New York, NY 10036</a></li>
+          <li><a href="#">42 Невский Променад</a></li>
+          <li><a href="#">Нью-Йорк, NY 10036</a></li>
           <li><a href="#">+1 (212) 555-0194</a></li>
           <li><a href="#">reservations@goldeneagleny.com</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 Golden Eagle Restaurant. All rights reserved.</span>
-      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms</a></span>
+      <span>&copy; 2026 Ресторан «Золотой Орёл». Все права защищены.</span>
+      <span><a href="#">Политика конфиденциальности</a> &nbsp;·&nbsp; <a href="#">Условия</a></span>
     </div>
   </div>
 </footer>
 
-<!-- ══════════ SCRIPTS ══════════ -->
+<!-- ══════════ СКРИПТЫ ══════════ -->
 <script>
-  /* ── Nav scroll effect ── */
+  /* ── Эффект прокрутки навигации ── */
   const navbar = document.getElementById('navbar');
   const heroBg = document.getElementById('heroBg');
   const heroSection = document.getElementById('hero');
@@ -1336,19 +1396,19 @@
     const scrolled = window.scrollY;
     navbar.classList.toggle('scrolled', scrolled > 60);
 
-    /* ── Parallax hero background ── */
+    /* ── Параллакс фона героя ── */
     if (scrolled < heroSection.offsetHeight + 200) {
       heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
     }
   }, { passive: true });
 
-  /* ── Mobile toggle ── */
+  /* ── Мобильное меню ── */
   const navToggle = document.getElementById('navToggle');
   const navLinks  = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-  /* ── Menu tabs ── */
+  /* ── Вкладки меню ── */
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1358,7 +1418,7 @@
     });
   });
 
-  /* ── Scroll reveal ── */
+  /* ── Анимация появления при прокрутке ── */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1369,21 +1429,21 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  /* ── Reservation form ── */
+  /* ── Форма бронирования ── */
   function handleSubmit(e) {
     e.preventDefault();
     document.getElementById('bookingForm').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   }
 
-  /* ── Minimum date ── */
+  /* ── Минимальная дата ── */
   const dateInput = document.getElementById('date');
   if (dateInput) {
     dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
   }
 
   /* ════════════════════════════════════════════
-     FALLING LEAVES / PARTICLE ANIMATION
+     АНИМАЦИЯ ПАДАЮЩИХ ЛИСТЬЕВ
   ════════════════════════════════════════════ */
   (function () {
     const canvas = document.getElementById('particleCanvas');
@@ -1392,12 +1452,12 @@
     let raf;
 
     const COLORS = [
-      [201, 168, 76],   /* antique gold    */
-      [226, 192, 106],  /* light gold      */
-      [180, 130,  50],  /* dark amber      */
-      [210, 160,  60],  /* warm amber      */
-      [160,  80,  30],  /* burnt orange    */
-      [139,   0,   0],  /* crimson (rare)  */
+      [201, 168, 76],
+      [226, 192, 106],
+      [180, 130,  50],
+      [210, 160,  60],
+      [160,  80,  30],
+      [139,   0,   0],
     ];
 
     function resize() {
@@ -1444,7 +1504,6 @@
         const fill   = `rgba(${this.r},${this.g},${this.b},${this.alpha})`;
         const stroke = `rgba(${this.r},${this.g},${this.b},${this.alpha * 0.55})`;
 
-        /* leaf body — pointed ellipse */
         ctx.beginPath();
         ctx.moveTo(0, -s);
         ctx.bezierCurveTo( s * 0.9, -s * 0.4,  s * 0.9,  s * 0.4, 0,  s);
@@ -1453,7 +1512,6 @@
         ctx.fillStyle = fill;
         ctx.fill();
 
-        /* centre vein */
         ctx.beginPath();
         ctx.moveTo(0, -s);
         ctx.lineTo(0,  s);
