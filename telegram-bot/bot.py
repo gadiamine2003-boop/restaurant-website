@@ -35,25 +35,17 @@ logger = logging.getLogger(__name__)
 ASK_NAME, ASK_DATE, ASK_GUESTS, ASK_PHONE = range(4)
 
 RESTAURANT_INFO = (
-    "🏛 *Ресторан «Империя»*\n"
-    "_Ресторан высокой кухни_\n\n"
-    "📍 *Адрес:*\n"
+    "🏛 <b>Ресторан «Империя»</b>\n"
+    "<i>Ресторан высокой кухни</i>\n\n"
+    "📍 <b>Адрес:</b>\n"
     "42 Невский Променад, Нью-Йорк, NY 10036\n\n"
-    "🕐 *Часы работы:*\n"
+    "🕐 <b>Часы работы:</b>\n"
     "Пн–Чт: 17:00 – 23:00\n"
     "Пт–Сб: 17:00 – 00:00\n"
     "Вс:      16:00 – 22:00\n\n"
-    "📞 *Телефон:* +1 (212) 555-0194\n"
-    "✉️ *Email:* reservations@imperiya-restaurant.com\n\n"
+    "📞 <b>Телефон:</b> +1 (212) 555-0194\n"
+    "✉️ <b>Email:</b> reservations@imperiya-restaurant.com\n\n"
     "🎻 Живой ансамбль балалайки каждую Пт и Сб с 20:00"
-)
-
-WELCOME_TEXT = (
-    "Добро пожаловать, {name}! 👋\n\n"
-    "🏛 *Ресторан «Империя»* рад приветствовать вас!\n\n"
-    "Мы предлагаем изысканную русскую кухню, приготовленную "
-    "с любовью и поданную с теплом истинного гостеприимства.\n\n"
-    "Выберите действие:"
 )
 
 
@@ -61,9 +53,17 @@ WELCOME_TEXT = (
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     name = update.effective_user.first_name
+    text = (
+        f"👋 Добро пожаловать, <b>{name}</b>!\n\n"
+        "🏛 <b>Ресторан «Империя»</b> рад приветствовать вас!\n\n"
+        "Мы предлагаем изысканную русскую кухню, приготовленную "
+        "с любовью и поданную с теплом истинного гостеприимства.\n\n"
+        "✦  ─────────────────────  ✦\n\n"
+        "Выберите действие:"
+    )
     await update.message.reply_text(
-        WELCOME_TEXT.format(name=name),
-        parse_mode="Markdown",
+        text,
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
 
@@ -72,8 +72,8 @@ async def cb_main(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        "🏛 *Ресторан «Империя»*\n\nВыберите действие:",
-        parse_mode="Markdown",
+        "🏛 <b>Ресторан «Империя»</b>\n\nВыберите действие:",
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
 
@@ -82,15 +82,14 @@ async def cb_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        "📋 *Меню «Империи»*\n\nВыберите категорию:",
-        parse_mode="Markdown",
+        "📋 <b>Меню «Империи»</b>\n\nВыберите категорию:",
+        parse_mode="HTML",
         reply_markup=menu_categories_keyboard(),
     )
 
 
 async def cb_category(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
-    await query.answer()
 
     key = query.data.removeprefix("cat_")
     cat = MENU.get(key)
@@ -98,14 +97,16 @@ async def cb_category(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await query.answer("Категория не найдена.", show_alert=True)
         return
 
-    lines = [f"{cat['emoji']} *{cat['label']}*\n"]
+    await query.answer()
+
+    lines = [f"{cat['emoji']} <b>{cat['label']}</b>\n"]
     for item in cat["items"]:
-        lines.append(f"▪️ *{item['name']}* — {item['price']}")
-        lines.append(f"   _{item['desc']}_\n")
+        lines.append(f"▪️ <b>{item['name']}</b> — {item['price']}")
+        lines.append(f"   <i>{item['desc']}</i>\n")
 
     await query.edit_message_text(
         "\n".join(lines),
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=category_back_keyboard(),
     )
 
@@ -115,7 +116,7 @@ async def cb_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await query.answer()
     await query.edit_message_text(
         RESTAURANT_INFO,
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=back_to_main_keyboard(),
     )
 
@@ -127,9 +128,9 @@ async def cb_reserve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     context.user_data.clear()
     await query.edit_message_text(
-        "📅 *Бронирование стола* — шаг 1 из 4\n\n"
-        "Пожалуйста, введите ваше *имя и фамилию*:",
-        parse_mode="Markdown",
+        "📅 <b>Бронирование стола</b> — шаг 1 из 4\n\n"
+        "Пожалуйста, введите ваше <b>имя и фамилию</b>:",
+        parse_mode="HTML",
         reply_markup=cancel_keyboard(),
     )
     return ASK_NAME
@@ -138,10 +139,10 @@ async def cb_reserve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def received_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data["name"] = update.message.text.strip()
     await update.message.reply_text(
-        "📅 *Бронирование стола* — шаг 2 из 4\n\n"
-        "Укажите желаемую *дату и время* посещения:\n"
-        "_(например: 15.07.2025, 19:00)_",
-        parse_mode="Markdown",
+        "📅 <b>Бронирование стола</b> — шаг 2 из 4\n\n"
+        "Укажите желаемую <b>дату и время</b> посещения:\n"
+        "<i>(например: 15.07.2025, 19:00)</i>",
+        parse_mode="HTML",
         reply_markup=cancel_keyboard(),
     )
     return ASK_DATE
@@ -150,9 +151,9 @@ async def received_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 async def received_date(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data["date"] = update.message.text.strip()
     await update.message.reply_text(
-        "📅 *Бронирование стола* — шаг 3 из 4\n\n"
-        "Сколько *гостей* будет?",
-        parse_mode="Markdown",
+        "📅 <b>Бронирование стола</b> — шаг 3 из 4\n\n"
+        "Сколько <b>гостей</b> будет?",
+        parse_mode="HTML",
         reply_markup=guests_keyboard(),
     )
     return ASK_GUESTS
@@ -163,9 +164,9 @@ async def received_guests(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await query.answer()
     context.user_data["guests"] = query.data.removeprefix("guests_")
     await query.edit_message_text(
-        "📅 *Бронирование стола* — шаг 4 из 4\n\n"
-        "Введите ваш *номер телефона* для подтверждения:",
-        parse_mode="Markdown",
+        "📅 <b>Бронирование стола</b> — шаг 4 из 4\n\n"
+        "Введите ваш <b>номер телефона</b> для подтверждения:",
+        parse_mode="HTML",
         reply_markup=cancel_keyboard(),
     )
     return ASK_PHONE
@@ -176,18 +177,17 @@ async def received_phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     data = context.user_data
 
     confirmation = (
-        "✅ *Заявка принята!*\n\n"
-        "🏛 Ресторан «Империя»\n\n"
-        f"👤 *Имя:* {data['name']}\n"
-        f"📅 *Дата и время:* {data['date']}\n"
-        f"👥 *Гостей:* {data['guests']}\n"
-        f"📞 *Телефон:* {data['phone']}\n\n"
-        "Мы свяжемся с вами для подтверждения в течение 2 часов.\n\n"
-        "Ждём вас! 🥂"
+        f"✅ Заявка принята!\n\n"
+        f"🏛 Ресторан «Империя»\n\n"
+        f"👤 Имя: {data['name']}\n"
+        f"📅 Дата и время: {data['date']}\n"
+        f"👥 Гостей: {data['guests']}\n"
+        f"📞 Телефон: {data['phone']}\n\n"
+        f"Мы свяжемся с вами для подтверждения в течение 2 часов.\n\n"
+        f"Ждём вас! 🥂"
     )
     await update.message.reply_text(
         confirmation,
-        parse_mode="Markdown",
         reply_markup=main_menu_keyboard(),
     )
 
@@ -195,7 +195,7 @@ async def received_phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     admin_id = os.getenv("ADMIN_CHAT_ID", "").strip()
     if admin_id:
         admin_msg = (
-            "🔔 *Новое бронирование — «Империя»*\n\n"
+            f"🔔 Новое бронирование — «Империя»\n\n"
             f"👤 Имя: {data['name']}\n"
             f"📅 Дата/время: {data['date']}\n"
             f"👥 Гостей: {data['guests']}\n"
@@ -205,7 +205,6 @@ async def received_phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             await context.bot.send_message(
                 chat_id=int(admin_id),
                 text=admin_msg,
-                parse_mode="Markdown",
             )
         except Exception as exc:
             logger.warning("Could not notify admin: %s", exc)
