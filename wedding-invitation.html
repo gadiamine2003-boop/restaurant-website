@@ -10,12 +10,11 @@
 
   <style>
     :root {
-      --bg:      #FAF7F2;
-      --terra:   #C4622D;
-      --body:    #4A4A4A;
-      --sage:    #7D9B76;
-      --gold:    #B8960C;
-      --border:  #7D9B76;
+      --bg:     #FAF7F2;
+      --terra:  #C4622D;
+      --body:   #4A4A4A;
+      --sage:   #7D9B76;
+      --gold:   #B8960C;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,16 +27,15 @@
       justify-content: flex-start;
       min-height: 100vh;
       padding: 40px 20px 60px;
-      font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+      font-family: 'EB Garamond', Georgia, serif;
     }
 
-    /* ─── Print button ─────────────────────────────────────── */
     .print-btn {
       margin-bottom: 28px;
       padding: 11px 32px;
       background: transparent;
-      border: 1.5px solid #7D9B76;
-      color: #4A4A4A;
+      border: 1.5px solid var(--sage);
+      color: var(--body);
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 14px;
       letter-spacing: 0.12em;
@@ -45,49 +43,68 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
-    .print-btn:hover { background: #7D9B76; color: #FAF7F2; }
+    .print-btn:hover { background: var(--sage); color: var(--bg); }
 
-    /* ─── Card ─────────────────────────────────────────────── */
+    /* ── Card shell ── */
     .card {
       width: 148mm;
       min-height: 210mm;
       background: var(--bg);
       position: relative;
-      padding: 14mm 13mm 14mm;
+      padding: 13mm 12mm 12mm;
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* subtle paper texture via box-shadow */
-      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+      overflow: hidden;
     }
 
-    /* ─── Outer border frame ────────────────────────────────── */
+    /* ── Watercolor corner washes (CSS radial gradients) ── */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 0% 0%,   rgba(196,98,45,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 100% 0%,  rgba(196,98,45,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 0% 100%,  rgba(196,98,45,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 100% 100%,rgba(196,98,45,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* second layer — very slight sage tint mid-edges for depth */
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 30% 30% at 50% 0%,   rgba(125,155,118,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 30% at 50% 100%,  rgba(125,155,118,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Border frame ── */
     .border-frame {
       position: absolute;
       inset: 8mm;
-      border: 0.6px solid var(--border);
+      border: 0.6px solid var(--sage);
       pointer-events: none;
+      z-index: 2;
     }
-    /* corner diamonds */
-    .border-frame::before,
-    .border-frame::after,
-    .corner-tl,
-    .corner-tr,
-    .corner-bl,
-    .corner-br {
-      content: '';
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: var(--border);
-      transform: rotate(45deg);
-    }
-    .corner-tl { top: -3.5px; left: -3.5px; }
-    .corner-tr { top: -3.5px; right: -3.5px; }
-    .corner-bl { bottom: -3.5px; left: -3.5px; }
-    .corner-br { bottom: -3.5px; right: -3.5px; }
 
-    /* ─── Inner content wrapper ─────────────────────────────── */
+    /* ── Corner flourish SVGs (injected as <svg> tags) ── */
+    .border-frame .cf {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+    }
+    .cf-tl { top: -9px;  left: -9px; }
+    .cf-tr { top: -9px;  right: -9px; transform: scaleX(-1); }
+    .cf-bl { bottom: -9px; left: -9px; transform: scaleY(-1); }
+    .cf-br { bottom: -9px; right: -9px; transform: scale(-1,-1); }
+
+    /* ── Content wrapper ── */
     .content {
       position: relative;
       z-index: 1;
@@ -95,84 +112,78 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
     }
 
-    /* ─── Olive branch SVG ──────────────────────────────────── */
+    /* ── Olive branch ── */
     .olive-branch {
-      width: 88mm;
+      width: 116mm;
       height: auto;
-      margin-top: 2mm;
-      margin-bottom: 5mm;
+      margin-top: 0mm;
+      margin-bottom: 4mm;
     }
 
-    /* ─── Together with families ────────────────────────────── */
+    /* ── Together line ── */
     .together {
       font-family: 'EB Garamond', Georgia, serif;
       font-style: italic;
       font-size: 10.5pt;
       color: var(--terra);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-align: center;
       line-height: 1.5;
-      margin-bottom: 3.5mm;
+      margin-bottom: 4mm;
     }
 
-    /* ─── Names ─────────────────────────────────────────────── */
+    /* ── Names ── */
     .names {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 300;
-      font-size: 28pt;
+      font-size: 33pt;
       color: var(--gold);
       text-align: center;
-      letter-spacing: 0.06em;
-      line-height: 1.15;
-      margin-bottom: 1mm;
+      letter-spacing: 0.07em;
+      line-height: 1.12;
+      margin-bottom: 0;
     }
     .ampersand {
-      font-size: 32pt;
+      font-size: 37pt;
       font-style: italic;
       font-weight: 300;
+      display: block;
+      line-height: 1.1;
     }
 
-    /* ─── Leaf divider ──────────────────────────────────────── */
+    /* ── Divider ── */
     .divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       width: 100%;
-      margin: 4mm 0;
+      margin: 5.5mm 0;
     }
     .divider-line {
       flex: 1;
-      max-width: 22mm;
+      max-width: 26mm;
       height: 0.5px;
       background: var(--sage);
-      opacity: 0.7;
+      opacity: 0.65;
     }
-    .divider svg {
-      width: 22px;
-      height: 14px;
-      flex-shrink: 0;
-    }
+    .divider svg { flex-shrink: 0; }
 
-    /* ─── Ceremony text ─────────────────────────────────────── */
+    /* ── Ceremony label ── */
     .ceremony-label {
       font-family: 'EB Garamond', Georgia, serif;
       font-style: italic;
       font-size: 9.5pt;
       color: var(--terra);
-      letter-spacing: 0.12em;
-      text-transform: lowercase;
+      letter-spacing: 0.1em;
       text-align: center;
-      margin-bottom: 4mm;
+      line-height: 1.7;
+      margin-bottom: 5mm;
     }
 
-    .detail-block {
-      text-align: center;
-      margin-bottom: 4.5mm;
-    }
+    .detail-block { text-align: center; margin-bottom: 0; }
 
     .date-text {
       font-family: 'Cormorant Garamond', Georgia, serif;
@@ -180,9 +191,8 @@
       font-size: 11pt;
       color: var(--body);
       letter-spacing: 0.04em;
-      line-height: 1.55;
+      line-height: 1.6;
     }
-
     .time-text {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 10.5pt;
@@ -190,260 +200,356 @@
       letter-spacing: 0.06em;
       line-height: 1.5;
     }
-
     .venue-name {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 500;
       font-size: 13pt;
       color: var(--body);
       letter-spacing: 0.05em;
-      line-height: 1.4;
+      line-height: 1.45;
     }
-
     .venue-address {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 9.5pt;
       color: var(--body);
-      opacity: 0.75;
+      opacity: 0.72;
       letter-spacing: 0.05em;
-      line-height: 1.5;
-    }
-
-    /* ─── RSVP section ──────────────────────────────────────── */
-    .rsvp-block {
-      text-align: center;
+      line-height: 1.55;
       margin-top: 1mm;
     }
+
+    /* ── RSVP ── */
+    .rsvp-block { text-align: center; }
     .rsvp-label {
       font-family: 'EB Garamond', Georgia, serif;
       font-style: italic;
       font-size: 9pt;
       color: var(--terra);
       letter-spacing: 0.1em;
-      text-transform: lowercase;
     }
     .rsvp-date {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 9.5pt;
       color: var(--body);
       letter-spacing: 0.06em;
-      margin-top: 0.5mm;
+      margin-top: 0.8mm;
     }
 
-    /* ─── Bottom botanical ──────────────────────────────────── */
+    /* ── Bottom botanical ── */
     .bottom-branch {
-      width: 54mm;
+      width: 60mm;
       height: auto;
-      margin-top: 5mm;
-      opacity: 0.82;
-      transform: scaleX(-1) rotate(8deg);
+      margin-top: 5.5mm;
+      opacity: 0.80;
+      transform: scaleX(-1) rotate(6deg);
     }
 
-    /* ─── Print styles ──────────────────────────────────────── */
+    /* ── Print ── */
     @media print {
-      @page {
-        size: 148mm 210mm;
-        margin: 0;
-      }
-      body {
-        background: none;
-        padding: 0;
-        margin: 0;
-        display: block;
-      }
+      @page { size: 148mm 210mm; margin: 0; }
+      body { background: none; padding: 0; margin: 0; display: block; }
       .print-btn { display: none; }
-      .card {
-        width: 148mm;
-        min-height: 210mm;
-        box-shadow: none;
-        margin: 0;
-        padding: 14mm 13mm 14mm;
-      }
+      .card { width: 148mm; min-height: 210mm; box-shadow: none; margin: 0; }
     }
   </style>
 </head>
 <body>
 
-  <button class="print-btn" onclick="window.print()">&#8595; Download as PDF</button>
+<button class="print-btn" onclick="window.print()">&#8595; Download as PDF</button>
 
-  <div class="card">
+<div class="card">
 
-    <!-- Border frame -->
-    <div class="border-frame">
-      <span class="corner-tl"></span>
-      <span class="corner-tr"></span>
-      <span class="corner-bl"></span>
-      <span class="corner-br"></span>
+  <!-- Watercolor texture is CSS ::before/::after on .card -->
+
+  <!-- Border frame with corner flourishes -->
+  <div class="border-frame">
+    <!-- top-left flourish -->
+    <svg class="cf cf-tl" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="9" r="1.6" fill="#7D9B76"/>
+      <path d="M9 9 C9 6, 7 3, 5 2" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M9 9 C6 9, 3 7, 2 5" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M5 2 C4 1, 3 1.5, 3.5 3 C4 4, 5 3.5, 5 2 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M2 5 C1 4, 1.5 3, 3 3.5 C4 4, 3.5 5, 2 5 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M9 9 C11 7, 13 6, 14 4" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M9 9 C7 11, 6 13, 4 14" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M12 5 C11 4, 10 4.5, 11 5.5 C12 6.5, 13 5.5, 12 5 Z" fill="#7D9B76" opacity="0.45"/>
+      <path d="M5 12 C4 11, 4.5 10, 5.5 11 C6.5 12, 5.5 13, 5 12 Z" fill="#7D9B76" opacity="0.45"/>
+    </svg>
+    <!-- top-right (mirrored via scaleX) -->
+    <svg class="cf cf-tr" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="9" r="1.6" fill="#7D9B76"/>
+      <path d="M9 9 C9 6, 7 3, 5 2" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M9 9 C6 9, 3 7, 2 5" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M5 2 C4 1, 3 1.5, 3.5 3 C4 4, 5 3.5, 5 2 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M2 5 C1 4, 1.5 3, 3 3.5 C4 4, 3.5 5, 2 5 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M9 9 C11 7, 13 6, 14 4" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M9 9 C7 11, 6 13, 4 14" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M12 5 C11 4, 10 4.5, 11 5.5 C12 6.5, 13 5.5, 12 5 Z" fill="#7D9B76" opacity="0.45"/>
+      <path d="M5 12 C4 11, 4.5 10, 5.5 11 C6.5 12, 5.5 13, 5 12 Z" fill="#7D9B76" opacity="0.45"/>
+    </svg>
+    <!-- bottom-left (mirrored via scaleY) -->
+    <svg class="cf cf-bl" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="9" r="1.6" fill="#7D9B76"/>
+      <path d="M9 9 C9 6, 7 3, 5 2" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M9 9 C6 9, 3 7, 2 5" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M5 2 C4 1, 3 1.5, 3.5 3 C4 4, 5 3.5, 5 2 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M2 5 C1 4, 1.5 3, 3 3.5 C4 4, 3.5 5, 2 5 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M9 9 C11 7, 13 6, 14 4" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M9 9 C7 11, 6 13, 4 14" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M12 5 C11 4, 10 4.5, 11 5.5 C12 6.5, 13 5.5, 12 5 Z" fill="#7D9B76" opacity="0.45"/>
+      <path d="M5 12 C4 11, 4.5 10, 5.5 11 C6.5 12, 5.5 13, 5 12 Z" fill="#7D9B76" opacity="0.45"/>
+    </svg>
+    <!-- bottom-right (scale -1,-1) -->
+    <svg class="cf cf-br" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="9" r="1.6" fill="#7D9B76"/>
+      <path d="M9 9 C9 6, 7 3, 5 2" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M9 9 C6 9, 3 7, 2 5" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none"/>
+      <path d="M5 2 C4 1, 3 1.5, 3.5 3 C4 4, 5 3.5, 5 2 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M2 5 C1 4, 1.5 3, 3 3.5 C4 4, 3.5 5, 2 5 Z" fill="#7D9B76" opacity="0.7"/>
+      <path d="M9 9 C11 7, 13 6, 14 4" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M9 9 C7 11, 6 13, 4 14" stroke="#7D9B76" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M12 5 C11 4, 10 4.5, 11 5.5 C12 6.5, 13 5.5, 12 5 Z" fill="#7D9B76" opacity="0.45"/>
+      <path d="M5 12 C4 11, 4.5 10, 5.5 11 C6.5 12, 5.5 13, 5 12 Z" fill="#7D9B76" opacity="0.45"/>
+    </svg>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════════════════════════════════════
+         OLIVE BRANCH — large, lush, detailed
+    ══════════════════════════════════════ -->
+    <svg class="olive-branch" viewBox="0 0 440 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <style>
+          .s  { stroke:#7D9B76; stroke-linecap:round; fill:none; }
+          .lf { fill:#7D9B76; }
+          .be { fill:#7D9B76; }
+        </style>
+      </defs>
+
+      <!-- ═ Main arching stems ═ -->
+      <path class="s" stroke-width="1.4" d="M220 106 C200 92, 168 74, 138 56 C110 40, 80 28, 52 20 C34 14, 16 11, 4 10"/>
+      <path class="s" stroke-width="1.4" d="M220 106 C240 92, 272 74, 302 56 C330 40, 360 28, 388 20 C406 14, 424 11, 436 10"/>
+
+      <!-- ═ Secondary branch stems — left ═ -->
+      <path class="s" stroke-width="1.0" d="M190 84 C180 72, 168 62, 152 54"/>
+      <path class="s" stroke-width="1.0" d="M164 66 C154 56, 142 47, 128 42"/>
+      <path class="s" stroke-width="0.9" d="M136 50 C126 42, 114 36, 100 31"/>
+      <path class="s" stroke-width="0.9" d="M108 36 C98 30, 86 24, 72 20"/>
+      <path class="s" stroke-width="0.8" d="M78 24 C68 19, 56 15, 42 13"/>
+      <path class="s" stroke-width="0.8" d="M50 16 C40 12, 28 10, 16 9"/>
+
+      <!-- ═ Secondary branch stems — right ═ -->
+      <path class="s" stroke-width="1.0" d="M250 84 C260 72, 272 62, 288 54"/>
+      <path class="s" stroke-width="1.0" d="M276 66 C286 56, 298 47, 312 42"/>
+      <path class="s" stroke-width="0.9" d="M304 50 C314 42, 326 36, 340 31"/>
+      <path class="s" stroke-width="0.9" d="M332 36 C342 30, 354 24, 368 20"/>
+      <path class="s" stroke-width="0.8" d="M362 24 C372 19, 384 15, 398 13"/>
+      <path class="s" stroke-width="0.8" d="M390 16 C400 12, 412 10, 424 9"/>
+
+      <!-- ═ Tertiary sprigs — left ═ -->
+      <path class="s" stroke-width="0.7" d="M175 76 C168 68, 160 62, 150 58"/>
+      <path class="s" stroke-width="0.7" d="M148 54 C140 46, 130 40, 118 36"/>
+      <path class="s" stroke-width="0.7" d="M90 29 C82 24, 74 20, 64 18"/>
+      <path class="s" stroke-width="0.7" d="M56 19 C48 15, 38 12, 28 11"/>
+
+      <!-- ═ Tertiary sprigs — right ═ -->
+      <path class="s" stroke-width="0.7" d="M265 76 C272 68, 280 62, 290 58"/>
+      <path class="s" stroke-width="0.7" d="M292 54 C300 46, 310 40, 322 36"/>
+      <path class="s" stroke-width="0.7" d="M350 29 C358 24, 366 20, 376 18"/>
+      <path class="s" stroke-width="0.7" d="M384 19 C392 15, 402 12, 412 11"/>
+
+      <!-- ═ LEAVES — left side, clustered in pairs along each stem ═ -->
+      <!-- cluster L1 near center -->
+      <path class="lf" opacity="0.88" d="M185 79 C176 70,167 64,163 68 C167 75,176 80,185 79Z"/>
+      <path class="lf" opacity="0.72" d="M178 86 C168 79,158 76,155 80 C160 86,170 88,178 86Z"/>
+      <path class="lf" opacity="0.80" d="M172 72 C162 63,152 58,149 62 C153 69,163 73,172 72Z"/>
+
+      <!-- cluster L2 -->
+      <path class="lf" opacity="0.88" d="M157 61 C148 52,138 47,134 51 C138 58,148 62,157 61Z"/>
+      <path class="lf" opacity="0.72" d="M149 68 C140 61,130 58,127 62 C132 68,141 70,149 68Z"/>
+      <path class="lf" opacity="0.78" d="M142 54 C133 45,122 41,119 45 C123 52,133 56,142 54Z"/>
+
+      <!-- cluster L3 -->
+      <path class="lf" opacity="0.85" d="M124 44 C115 36,104 31,100 35 C104 42,115 46,124 44Z"/>
+      <path class="lf" opacity="0.70" d="M116 50 C107 44,96 41,93 45 C98 51,108 53,116 50Z"/>
+
+      <!-- cluster L4 -->
+      <path class="lf" opacity="0.82" d="M98 33 C90 26,80 22,76 26 C80 32,90 36,98 33Z"/>
+      <path class="lf" opacity="0.68" d="M90 39 C82 33,72 30,69 34 C73 40,83 42,90 39Z"/>
+
+      <!-- cluster L5 outer -->
+      <path class="lf" opacity="0.80" d="M74 22 C66 16,56 13,52 17 C56 23,66 26,74 22Z"/>
+      <path class="lf" opacity="0.65" d="M64 27 C56 21,46 18,43 22 C47 28,57 30,64 27Z"/>
+      <path class="lf" opacity="0.72" d="M52 17 C44 12,34 9,31 13 C35 19,45 21,52 17Z"/>
+
+      <!-- cluster L6 far outer -->
+      <path class="lf" opacity="0.70" d="M40 14 C32 9,22 7,19 11 C23 17,33 18,40 14Z"/>
+      <path class="lf" opacity="0.58" d="M28 12 C20 8,12 6,10 10 C14 15,22 16,28 12Z"/>
+
+      <!-- ═ LEAVES — right side (mirror logic) ═ -->
+      <path class="lf" opacity="0.88" d="M255 79 C264 70,273 64,277 68 C273 75,264 80,255 79Z"/>
+      <path class="lf" opacity="0.72" d="M262 86 C272 79,282 76,285 80 C280 86,270 88,262 86Z"/>
+      <path class="lf" opacity="0.80" d="M268 72 C278 63,288 58,291 62 C287 69,277 73,268 72Z"/>
+
+      <path class="lf" opacity="0.88" d="M283 61 C292 52,302 47,306 51 C302 58,292 62,283 61Z"/>
+      <path class="lf" opacity="0.72" d="M291 68 C300 61,310 58,313 62 C308 68,299 70,291 68Z"/>
+      <path class="lf" opacity="0.78" d="M298 54 C307 45,318 41,321 45 C317 52,307 56,298 54Z"/>
+
+      <path class="lf" opacity="0.85" d="M316 44 C325 36,336 31,340 35 C336 42,325 46,316 44Z"/>
+      <path class="lf" opacity="0.70" d="M324 50 C333 44,344 41,347 45 C342 51,332 53,324 50Z"/>
+
+      <path class="lf" opacity="0.82" d="M342 33 C350 26,360 22,364 26 C360 32,350 36,342 33Z"/>
+      <path class="lf" opacity="0.68" d="M350 39 C358 33,368 30,371 34 C367 40,357 42,350 39Z"/>
+
+      <path class="lf" opacity="0.80" d="M366 22 C374 16,384 13,388 17 C384 23,374 26,366 22Z"/>
+      <path class="lf" opacity="0.65" d="M376 27 C384 21,394 18,397 22 C393 28,383 30,376 27Z"/>
+      <path class="lf" opacity="0.72" d="M388 17 C396 12,406 9,409 13 C405 19,395 21,388 17Z"/>
+
+      <path class="lf" opacity="0.70" d="M400 14 C408 9,418 7,421 11 C417 17,407 18,400 14Z"/>
+      <path class="lf" opacity="0.58" d="M412 12 C420 8,428 6,430 10 C426 15,418 16,412 12Z"/>
+
+      <!-- ═ Berries — left ═ -->
+      <circle class="be" opacity="0.58" cx="155" cy="58"  r="2.6"/>
+      <circle class="be" opacity="0.52" cx="130" cy="43"  r="2.2"/>
+      <circle class="be" opacity="0.48" cx="100" cy="32"  r="2.0"/>
+      <circle class="be" opacity="0.44" cx="73"  cy="22"  r="1.8"/>
+      <circle class="be" opacity="0.40" cx="48"  cy="16"  r="1.6"/>
+      <circle class="be" opacity="0.36" cx="26"  cy="12"  r="1.4"/>
+      <!-- berry pairs on sprigs -->
+      <circle class="be" opacity="0.45" cx="170" cy="69"  r="1.8"/>
+      <circle class="be" opacity="0.40" cx="146" cy="53"  r="1.6"/>
+      <circle class="be" opacity="0.38" cx="92"  cy="30"  r="1.5"/>
+
+      <!-- ═ Berries — right ═ -->
+      <circle class="be" opacity="0.58" cx="285" cy="58"  r="2.6"/>
+      <circle class="be" opacity="0.52" cx="310" cy="43"  r="2.2"/>
+      <circle class="be" opacity="0.48" cx="340" cy="32"  r="2.0"/>
+      <circle class="be" opacity="0.44" cx="367" cy="22"  r="1.8"/>
+      <circle class="be" opacity="0.40" cx="392" cy="16"  r="1.6"/>
+      <circle class="be" opacity="0.36" cx="414" cy="12"  r="1.4"/>
+      <circle class="be" opacity="0.45" cx="270" cy="69"  r="1.8"/>
+      <circle class="be" opacity="0.40" cx="294" cy="53"  r="1.6"/>
+      <circle class="be" opacity="0.38" cx="348" cy="30"  r="1.5"/>
+
+      <!-- ═ Centre upright stem + leaves ═ -->
+      <path class="s" stroke-width="0.9" d="M220 106 C220 96, 220 84, 220 74"/>
+      <path class="lf" opacity="0.80" d="M220 80 C215 73,209 69,208 73 C211 78,216 81,220 80Z"/>
+      <path class="lf" opacity="0.80" d="M220 80 C225 73,231 69,232 73 C229 78,224 81,220 80Z"/>
+      <path class="lf" opacity="0.65" d="M220 92 C215 86,210 83,209 87 C212 91,216 93,220 92Z"/>
+      <path class="lf" opacity="0.65" d="M220 92 C225 86,230 83,231 87 C228 91,224 93,220 92Z"/>
+      <circle class="be" opacity="0.50" cx="220" cy="75" r="2.0"/>
+    </svg>
+
+    <!-- Together line -->
+    <p class="together">Together with their families</p>
+
+    <!-- Names -->
+    <h1 class="names">
+      Alexander<br>
+      <span class="ampersand">&amp;</span>
+      Isabella
+    </h1>
+
+    <!-- Divider 1 — large triple-leaf -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <svg width="56" height="26" viewBox="0 0 56 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M28 22 C25 16,20 11,17 13 C19 18,23 22,28 22Z" fill="#7D9B76" opacity="0.82"/>
+        <path d="M28 22 C31 16,36 11,39 13 C37 18,33 22,28 22Z" fill="#7D9B76" opacity="0.82"/>
+        <line x1="28" y1="22" x2="28" y2="6" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
+        <path d="M8 19 C5 13,3 8,6 7 C9 10,10 15,8 19Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M8 19 C11 13,14 9,16 11 C14 15,11 18,8 19Z" fill="#7D9B76" opacity="0.65"/>
+        <line x1="8"  y1="19" x2="10" y2="5" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        <path d="M48 19 C51 13,53 8,50 7 C47 10,46 15,48 19Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M48 19 C45 13,42 9,40 11 C42 15,45 18,48 19Z" fill="#7D9B76" opacity="0.65"/>
+        <line x1="48" y1="19" x2="46" y2="5" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+      </svg>
+      <div class="divider-line"></div>
     </div>
 
-    <div class="content">
+    <!-- Ceremony label -->
+    <p class="ceremony-label">request the honour of your presence<br>at their wedding ceremony</p>
 
-      <!-- ═══ Olive Branch — Top ═══ -->
-      <svg class="olive-branch" viewBox="0 0 320 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Main curved stems -->
-        <path d="M160 78 C145 68, 120 55, 98 42 C78 30, 58 22, 38 18" stroke="#7D9B76" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-        <path d="M160 78 C175 68, 200 55, 222 42 C242 30, 262 22, 282 18" stroke="#7D9B76" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-        <!-- Secondary stems left -->
-        <path d="M130 58 C124 50, 116 44, 104 40" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-        <path d="M108 46 C102 40, 94 34, 84 32" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-        <path d="M80 30 C74 26, 66 22, 56 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
-        <!-- Secondary stems right -->
-        <path d="M190 58 C196 50, 204 44, 216 40" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-        <path d="M212 46 C218 40, 226 34, 236 32" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
-        <path d="M240 30 C246 26, 254 22, 264 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+    <!-- Date -->
+    <div class="detail-block">
+      <p class="date-text">Saturday, the Fourteenth of June<br>Two Thousand Twenty Six</p>
+    </div>
 
-        <!-- Leaves Left branch — organic shapes -->
-        <!-- leaf cluster near center-left -->
-        <path d="M124 52 C118 46, 112 42, 108 45 C112 50, 118 54, 124 52 Z" fill="#7D9B76" opacity="0.85"/>
-        <path d="M116 56 C109 52, 103 50, 101 54 C106 57, 112 58, 116 56 Z" fill="#7D9B76" opacity="0.75"/>
-        <!-- mid left -->
-        <path d="M100 40 C94 34, 88 30, 84 33 C88 38, 94 42, 100 40 Z" fill="#7D9B76" opacity="0.85"/>
-        <path d="M92 44 C86 40, 80 38, 78 42 C83 45, 89 46, 92 44 Z" fill="#7D9B76" opacity="0.70"/>
-        <!-- outer left -->
-        <path d="M76 26 C70 20, 62 18, 58 21 C62 26, 70 28, 76 26 Z" fill="#7D9B76" opacity="0.80"/>
-        <path d="M66 24 C60 19, 52 18, 49 22 C54 26, 60 27, 66 24 Z" fill="#7D9B76" opacity="0.65"/>
-        <path d="M54 22 C48 17, 40 16, 37 19 C42 24, 48 25, 54 22 Z" fill="#7D9B76" opacity="0.70"/>
-
-        <!-- Leaves Right branch -->
-        <path d="M196 52 C202 46, 208 42, 212 45 C208 50, 202 54, 196 52 Z" fill="#7D9B76" opacity="0.85"/>
-        <path d="M204 56 C211 52, 217 50, 219 54 C214 57, 208 58, 204 56 Z" fill="#7D9B76" opacity="0.75"/>
-        <path d="M220 40 C226 34, 232 30, 236 33 C232 38, 226 42, 220 40 Z" fill="#7D9B76" opacity="0.85"/>
-        <path d="M228 44 C234 40, 240 38, 242 42 C237 45, 231 46, 228 44 Z" fill="#7D9B76" opacity="0.70"/>
-        <path d="M244 26 C250 20, 258 18, 262 21 C258 26, 250 28, 244 26 Z" fill="#7D9B76" opacity="0.80"/>
-        <path d="M254 24 C260 19, 268 18, 271 22 C266 26, 260 27, 254 24 Z" fill="#7D9B76" opacity="0.65"/>
-        <path d="M266 22 C272 17, 280 16, 283 19 C278 24, 272 25, 266 22 Z" fill="#7D9B76" opacity="0.70"/>
-
-        <!-- Small olive berries left -->
-        <circle cx="104" cy="43" r="2.2" fill="#7D9B76" opacity="0.55"/>
-        <circle cx="84" cy="34" r="1.8" fill="#7D9B76" opacity="0.50"/>
-        <circle cx="60" cy="22" r="1.6" fill="#7D9B76" opacity="0.45"/>
-        <!-- Small olive berries right -->
-        <circle cx="216" cy="43" r="2.2" fill="#7D9B76" opacity="0.55"/>
-        <circle cx="236" cy="34" r="1.8" fill="#7D9B76" opacity="0.50"/>
-        <circle cx="260" cy="22" r="1.6" fill="#7D9B76" opacity="0.45"/>
-
-        <!-- Center stem upward -->
-        <path d="M160 78 C160 70, 160 62, 160 55" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
-        <!-- tiny center leaf -->
-        <path d="M160 58 C156 53, 152 50, 153 55 C155 58, 158 59, 160 58 Z" fill="#7D9B76" opacity="0.7"/>
-        <path d="M160 58 C164 53, 168 50, 167 55 C165 58, 162 59, 160 58 Z" fill="#7D9B76" opacity="0.7"/>
+    <!-- Divider 2 — single leaf -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 14 C12 9,8 5,7 7 C9 11,12 14,15 14Z" fill="#7D9B76" opacity="0.78"/>
+        <path d="M15 14 C18 9,22 5,23 7 C21 11,18 14,15 14Z" fill="#7D9B76" opacity="0.78"/>
+        <line x1="15" y1="14" x2="15" y2="3" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
       </svg>
+      <div class="divider-line"></div>
+    </div>
 
-      <!-- ═══ Together line ═══ -->
-      <p class="together">Together with their families</p>
+    <!-- Time -->
+    <div class="detail-block">
+      <p class="time-text">Four o'clock in the afternoon</p>
+    </div>
 
-      <!-- ═══ Names ═══ -->
-      <h1 class="names">
-        Alexander<br>
-        <span class="ampersand">&amp;</span><br>
-        Isabella
-      </h1>
-
-      <!-- ═══ Divider 1 ═══ -->
-      <div class="divider">
-        <div class="divider-line"></div>
-        <svg viewBox="0 0 52 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- three small leaves -->
-          <path d="M26 20 C24 15, 20 11, 18 13 C20 17, 23 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
-          <path d="M26 20 C28 15, 32 11, 34 13 C32 17, 29 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
-          <path d="M26 20 C26 14, 26 10, 26 8" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
-          <path d="M8 18 C6 13, 4 9, 6 8 C8 11, 9 15, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M8 18 C10 13, 13 10, 14 12 C12 15, 10 17, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M8 18 C8 14, 8 10, 9 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-          <path d="M44 18 C46 13, 48 9, 46 8 C44 11, 43 15, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M44 18 C42 13, 39 10, 38 12 C40 15, 42 17, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M44 18 C44 14, 44 10, 43 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-        </svg>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- ═══ Ceremony label ═══ -->
-      <p class="ceremony-label">request the honour of your presence<br>at their wedding ceremony</p>
-
-      <!-- ═══ Date ═══ -->
-      <div class="detail-block">
-        <p class="date-text">Saturday, the Fourteenth of June<br>Two Thousand Twenty Six</p>
-      </div>
-
-      <!-- ═══ Divider 2 ═══ -->
-      <div class="divider">
-        <div class="divider-line"></div>
-        <svg viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 12 C12 8, 9 5, 8 7 C10 10, 12 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
-          <path d="M14 12 C16 8, 19 5, 20 7 C18 10, 16 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
-          <line x1="14" y1="12" x2="14" y2="4" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-        </svg>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- ═══ Time ═══ -->
-      <div class="detail-block">
-        <p class="time-text">Four o'clock in the afternoon</p>
-      </div>
-
-      <!-- ═══ Divider 3 ═══ -->
-      <div class="divider">
-        <div class="divider-line"></div>
-        <svg viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 12 C12 8, 9 5, 8 7 C10 10, 12 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
-          <path d="M14 12 C16 8, 19 5, 20 7 C18 10, 16 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
-          <line x1="14" y1="12" x2="14" y2="4" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-        </svg>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- ═══ Venue ═══ -->
-      <div class="detail-block">
-        <p class="venue-name">The Grand Garden Estate</p>
-        <p class="venue-address">123 Rose Garden Lane, New York</p>
-      </div>
-
-      <!-- ═══ Divider 4 ═══ -->
-      <div class="divider">
-        <div class="divider-line"></div>
-        <svg viewBox="0 0 52 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M26 20 C24 15, 20 11, 18 13 C20 17, 23 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
-          <path d="M26 20 C28 15, 32 11, 34 13 C32 17, 29 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
-          <path d="M26 20 C26 14, 26 10, 26 8" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
-          <path d="M8 18 C6 13, 4 9, 6 8 C8 11, 9 15, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M8 18 C10 13, 13 10, 14 12 C12 15, 10 17, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M8 18 C8 14, 8 10, 9 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-          <path d="M44 18 C46 13, 48 9, 46 8 C44 11, 43 15, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M44 18 C42 13, 39 10, 38 12 C40 15, 42 17, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
-          <path d="M44 18 C44 14, 44 10, 43 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
-        </svg>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- ═══ RSVP ═══ -->
-      <div class="rsvp-block">
-        <p class="rsvp-label">Kindly reply by</p>
-        <p class="rsvp-date">May 1st, Two Thousand Twenty Six</p>
-      </div>
-
-      <!-- ═══ Bottom botanical ornament ═══ -->
-      <svg class="bottom-branch" viewBox="0 0 200 55" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M100 48 C85 40, 64 30, 44 22 C28 16, 14 12, 4 11" stroke="#7D9B76" stroke-width="1.0" stroke-linecap="round" fill="none"/>
-        <path d="M78 36 C70 28, 62 23, 52 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
-        <path d="M56 24 C48 18, 40 14, 30 13" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
-        <!-- leaves -->
-        <path d="M74 30 C68 24, 62 20, 59 23 C63 28, 69 31, 74 30 Z" fill="#7D9B76" opacity="0.80"/>
-        <path d="M65 34 C59 29, 53 27, 51 31 C55 34, 61 36, 65 34 Z" fill="#7D9B76" opacity="0.70"/>
-        <path d="M52 20 C46 15, 40 11, 37 14 C41 19, 47 22, 52 20 Z" fill="#7D9B76" opacity="0.80"/>
-        <path d="M34 15 C28 10, 22 8, 20 12 C24 16, 29 17, 34 15 Z" fill="#7D9B76" opacity="0.70"/>
-        <path d="M18 13 C12 8, 6 7, 4 11 C9 14, 14 14, 18 13 Z" fill="#7D9B76" opacity="0.65"/>
-        <!-- berries -->
-        <circle cx="56" cy="22" r="1.8" fill="#7D9B76" opacity="0.50"/>
-        <circle cx="36" cy="15" r="1.6" fill="#7D9B76" opacity="0.45"/>
-        <!-- right side sparse -->
-        <path d="M100 48 C112 40, 130 30, 148 22 C162 16, 176 12, 186 11" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.5"/>
-        <path d="M118 34 C124 28, 132 24, 140 22" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.5"/>
-        <path d="M120 28 C126 22, 132 19, 137 22 C133 27, 127 29, 120 28 Z" fill="#7D9B76" opacity="0.45"/>
-        <path d="M144 20 C150 15, 158 12, 162 15 C158 20, 152 22, 144 20 Z" fill="#7D9B76" opacity="0.40"/>
+    <!-- Divider 3 -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 14 C12 9,8 5,7 7 C9 11,12 14,15 14Z" fill="#7D9B76" opacity="0.78"/>
+        <path d="M15 14 C18 9,22 5,23 7 C21 11,18 14,15 14Z" fill="#7D9B76" opacity="0.78"/>
+        <line x1="15" y1="14" x2="15" y2="3" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
       </svg>
+      <div class="divider-line"></div>
+    </div>
 
-    </div><!-- /.content -->
-  </div><!-- /.card -->
+    <!-- Venue -->
+    <div class="detail-block">
+      <p class="venue-name">The Grand Garden Estate</p>
+      <p class="venue-address">123 Rose Garden Lane, New York</p>
+    </div>
+
+    <!-- Divider 4 — triple leaf again -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <svg width="56" height="26" viewBox="0 0 56 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M28 22 C25 16,20 11,17 13 C19 18,23 22,28 22Z" fill="#7D9B76" opacity="0.82"/>
+        <path d="M28 22 C31 16,36 11,39 13 C37 18,33 22,28 22Z" fill="#7D9B76" opacity="0.82"/>
+        <line x1="28" y1="22" x2="28" y2="6" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
+        <path d="M8 19 C5 13,3 8,6 7 C9 10,10 15,8 19Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M8 19 C11 13,14 9,16 11 C14 15,11 18,8 19Z" fill="#7D9B76" opacity="0.65"/>
+        <line x1="8"  y1="19" x2="10" y2="5" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        <path d="M48 19 C51 13,53 8,50 7 C47 10,46 15,48 19Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M48 19 C45 13,42 9,40 11 C42 15,45 18,48 19Z" fill="#7D9B76" opacity="0.65"/>
+        <line x1="48" y1="19" x2="46" y2="5" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+      </svg>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- RSVP -->
+    <div class="rsvp-block">
+      <p class="rsvp-label">Kindly reply by</p>
+      <p class="rsvp-date">May 1st, Two Thousand Twenty Six</p>
+    </div>
+
+    <!-- Bottom botanical -->
+    <svg class="bottom-branch" viewBox="0 0 200 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M100 50 C82 40,60 29,40 20 C24 13,10 9,2 8" stroke="#7D9B76" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+      <path d="M76 36 C66 27,56 21,44 17" stroke="#7D9B76" stroke-width="0.85" stroke-linecap="round" fill="none"/>
+      <path d="M52 22 C42 15,32 11,22 10" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+      <path d="M60 28 C52 21,44 17,38 19 C42 25,50 29,60 28Z" fill="#7D9B76" opacity="0.82"/>
+      <path d="M50 35 C42 29,34 26,31 30 C35 35,43 37,50 35Z" fill="#7D9B76" opacity="0.72"/>
+      <path d="M40 20 C32 14,24 10,21 14 C25 19,33 22,40 20Z" fill="#7D9B76" opacity="0.80"/>
+      <path d="M26 13 C18 8,10 6,8 10 C12 15,20 16,26 13Z" fill="#7D9B76" opacity="0.68"/>
+      <circle cx="44" cy="18" r="1.9" fill="#7D9B76" opacity="0.50"/>
+      <circle cx="24" cy="12" r="1.6" fill="#7D9B76" opacity="0.44"/>
+      <path d="M100 50 C118 40,140 29,160 20 C176 13,190 9,198 8" stroke="#7D9B76" stroke-width="0.75" stroke-linecap="round" fill="none" opacity="0.45"/>
+      <path d="M122 34 C130 27,140 22,150 20 C146 26,138 29,122 34Z" fill="#7D9B76" opacity="0.38"/>
+      <path d="M148 20 C156 14,166 11,170 14 C166 19,158 21,148 20Z" fill="#7D9B76" opacity="0.35"/>
+    </svg>
+
+  </div><!-- /.content -->
+</div><!-- /.card -->
 
 </body>
 </html>
