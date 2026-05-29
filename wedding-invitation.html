@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation – Alexander & Isabella</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:      #FAF7F2;
+      --terra:   #C4622D;
+      --body:    #4A4A4A;
+      --sage:    #7D9B76;
+      --gold:    #B8960C;
+      --border:  #7D9B76;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #e8e4df;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+      font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* ─── Print button ─────────────────────────────────────── */
+    .print-btn {
+      margin-bottom: 28px;
+      padding: 11px 32px;
+      background: transparent;
+      border: 1.5px solid #7D9B76;
+      color: #4A4A4A;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .print-btn:hover { background: #7D9B76; color: #FAF7F2; }
+
+    /* ─── Card ─────────────────────────────────────────────── */
+    .card {
+      width: 148mm;
+      min-height: 210mm;
+      background: var(--bg);
+      position: relative;
+      padding: 14mm 13mm 14mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* subtle paper texture via box-shadow */
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+    }
+
+    /* ─── Outer border frame ────────────────────────────────── */
+    .border-frame {
+      position: absolute;
+      inset: 8mm;
+      border: 0.6px solid var(--border);
+      pointer-events: none;
+    }
+    /* corner diamonds */
+    .border-frame::before,
+    .border-frame::after,
+    .corner-tl,
+    .corner-tr,
+    .corner-bl,
+    .corner-br {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--border);
+      transform: rotate(45deg);
+    }
+    .corner-tl { top: -3.5px; left: -3.5px; }
+    .corner-tr { top: -3.5px; right: -3.5px; }
+    .corner-bl { bottom: -3.5px; left: -3.5px; }
+    .corner-br { bottom: -3.5px; right: -3.5px; }
+
+    /* ─── Inner content wrapper ─────────────────────────────── */
+    .content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ─── Olive branch SVG ──────────────────────────────────── */
+    .olive-branch {
+      width: 88mm;
+      height: auto;
+      margin-top: 2mm;
+      margin-bottom: 5mm;
+    }
+
+    /* ─── Together with families ────────────────────────────── */
+    .together {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 10.5pt;
+      color: var(--terra);
+      letter-spacing: 0.04em;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 3.5mm;
+    }
+
+    /* ─── Names ─────────────────────────────────────────────── */
+    .names {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: 28pt;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      margin-bottom: 1mm;
+    }
+    .ampersand {
+      font-size: 32pt;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* ─── Leaf divider ──────────────────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      margin: 4mm 0;
+    }
+    .divider-line {
+      flex: 1;
+      max-width: 22mm;
+      height: 0.5px;
+      background: var(--sage);
+      opacity: 0.7;
+    }
+    .divider svg {
+      width: 22px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Ceremony text ─────────────────────────────────────── */
+    .ceremony-label {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 9.5pt;
+      color: var(--terra);
+      letter-spacing: 0.12em;
+      text-transform: lowercase;
+      text-align: center;
+      margin-bottom: 4mm;
+    }
+
+    .detail-block {
+      text-align: center;
+      margin-bottom: 4.5mm;
+    }
+
+    .date-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 11pt;
+      color: var(--body);
+      letter-spacing: 0.04em;
+      line-height: 1.55;
+    }
+
+    .time-text {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 10.5pt;
+      color: var(--body);
+      letter-spacing: 0.06em;
+      line-height: 1.5;
+    }
+
+    .venue-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 13pt;
+      color: var(--body);
+      letter-spacing: 0.05em;
+      line-height: 1.4;
+    }
+
+    .venue-address {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 9.5pt;
+      color: var(--body);
+      opacity: 0.75;
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+    }
+
+    /* ─── RSVP section ──────────────────────────────────────── */
+    .rsvp-block {
+      text-align: center;
+      margin-top: 1mm;
+    }
+    .rsvp-label {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 9pt;
+      color: var(--terra);
+      letter-spacing: 0.1em;
+      text-transform: lowercase;
+    }
+    .rsvp-date {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 9.5pt;
+      color: var(--body);
+      letter-spacing: 0.06em;
+      margin-top: 0.5mm;
+    }
+
+    /* ─── Bottom botanical ──────────────────────────────────── */
+    .bottom-branch {
+      width: 54mm;
+      height: auto;
+      margin-top: 5mm;
+      opacity: 0.82;
+      transform: scaleX(-1) rotate(8deg);
+    }
+
+    /* ─── Print styles ──────────────────────────────────────── */
+    @media print {
+      @page {
+        size: 148mm 210mm;
+        margin: 0;
+      }
+      body {
+        background: none;
+        padding: 0;
+        margin: 0;
+        display: block;
+      }
+      .print-btn { display: none; }
+      .card {
+        width: 148mm;
+        min-height: 210mm;
+        box-shadow: none;
+        margin: 0;
+        padding: 14mm 13mm 14mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">&#8595; Download as PDF</button>
+
+  <div class="card">
+
+    <!-- Border frame -->
+    <div class="border-frame">
+      <span class="corner-tl"></span>
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+      <span class="corner-br"></span>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══ Olive Branch — Top ═══ -->
+      <svg class="olive-branch" viewBox="0 0 320 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Main curved stems -->
+        <path d="M160 78 C145 68, 120 55, 98 42 C78 30, 58 22, 38 18" stroke="#7D9B76" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M160 78 C175 68, 200 55, 222 42 C242 30, 262 22, 282 18" stroke="#7D9B76" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <!-- Secondary stems left -->
+        <path d="M130 58 C124 50, 116 44, 104 40" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+        <path d="M108 46 C102 40, 94 34, 84 32" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+        <path d="M80 30 C74 26, 66 22, 56 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+        <!-- Secondary stems right -->
+        <path d="M190 58 C196 50, 204 44, 216 40" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+        <path d="M212 46 C218 40, 226 34, 236 32" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round" fill="none"/>
+        <path d="M240 30 C246 26, 254 22, 264 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+
+        <!-- Leaves Left branch — organic shapes -->
+        <!-- leaf cluster near center-left -->
+        <path d="M124 52 C118 46, 112 42, 108 45 C112 50, 118 54, 124 52 Z" fill="#7D9B76" opacity="0.85"/>
+        <path d="M116 56 C109 52, 103 50, 101 54 C106 57, 112 58, 116 56 Z" fill="#7D9B76" opacity="0.75"/>
+        <!-- mid left -->
+        <path d="M100 40 C94 34, 88 30, 84 33 C88 38, 94 42, 100 40 Z" fill="#7D9B76" opacity="0.85"/>
+        <path d="M92 44 C86 40, 80 38, 78 42 C83 45, 89 46, 92 44 Z" fill="#7D9B76" opacity="0.70"/>
+        <!-- outer left -->
+        <path d="M76 26 C70 20, 62 18, 58 21 C62 26, 70 28, 76 26 Z" fill="#7D9B76" opacity="0.80"/>
+        <path d="M66 24 C60 19, 52 18, 49 22 C54 26, 60 27, 66 24 Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M54 22 C48 17, 40 16, 37 19 C42 24, 48 25, 54 22 Z" fill="#7D9B76" opacity="0.70"/>
+
+        <!-- Leaves Right branch -->
+        <path d="M196 52 C202 46, 208 42, 212 45 C208 50, 202 54, 196 52 Z" fill="#7D9B76" opacity="0.85"/>
+        <path d="M204 56 C211 52, 217 50, 219 54 C214 57, 208 58, 204 56 Z" fill="#7D9B76" opacity="0.75"/>
+        <path d="M220 40 C226 34, 232 30, 236 33 C232 38, 226 42, 220 40 Z" fill="#7D9B76" opacity="0.85"/>
+        <path d="M228 44 C234 40, 240 38, 242 42 C237 45, 231 46, 228 44 Z" fill="#7D9B76" opacity="0.70"/>
+        <path d="M244 26 C250 20, 258 18, 262 21 C258 26, 250 28, 244 26 Z" fill="#7D9B76" opacity="0.80"/>
+        <path d="M254 24 C260 19, 268 18, 271 22 C266 26, 260 27, 254 24 Z" fill="#7D9B76" opacity="0.65"/>
+        <path d="M266 22 C272 17, 280 16, 283 19 C278 24, 272 25, 266 22 Z" fill="#7D9B76" opacity="0.70"/>
+
+        <!-- Small olive berries left -->
+        <circle cx="104" cy="43" r="2.2" fill="#7D9B76" opacity="0.55"/>
+        <circle cx="84" cy="34" r="1.8" fill="#7D9B76" opacity="0.50"/>
+        <circle cx="60" cy="22" r="1.6" fill="#7D9B76" opacity="0.45"/>
+        <!-- Small olive berries right -->
+        <circle cx="216" cy="43" r="2.2" fill="#7D9B76" opacity="0.55"/>
+        <circle cx="236" cy="34" r="1.8" fill="#7D9B76" opacity="0.50"/>
+        <circle cx="260" cy="22" r="1.6" fill="#7D9B76" opacity="0.45"/>
+
+        <!-- Center stem upward -->
+        <path d="M160 78 C160 70, 160 62, 160 55" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+        <!-- tiny center leaf -->
+        <path d="M160 58 C156 53, 152 50, 153 55 C155 58, 158 59, 160 58 Z" fill="#7D9B76" opacity="0.7"/>
+        <path d="M160 58 C164 53, 168 50, 167 55 C165 58, 162 59, 160 58 Z" fill="#7D9B76" opacity="0.7"/>
+      </svg>
+
+      <!-- ═══ Together line ═══ -->
+      <p class="together">Together with their families</p>
+
+      <!-- ═══ Names ═══ -->
+      <h1 class="names">
+        Alexander<br>
+        <span class="ampersand">&amp;</span><br>
+        Isabella
+      </h1>
+
+      <!-- ═══ Divider 1 ═══ -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <svg viewBox="0 0 52 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- three small leaves -->
+          <path d="M26 20 C24 15, 20 11, 18 13 C20 17, 23 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
+          <path d="M26 20 C28 15, 32 11, 34 13 C32 17, 29 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
+          <path d="M26 20 C26 14, 26 10, 26 8" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
+          <path d="M8 18 C6 13, 4 9, 6 8 C8 11, 9 15, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M8 18 C10 13, 13 10, 14 12 C12 15, 10 17, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M8 18 C8 14, 8 10, 9 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+          <path d="M44 18 C46 13, 48 9, 46 8 C44 11, 43 15, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M44 18 C42 13, 39 10, 38 12 C40 15, 42 17, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M44 18 C44 14, 44 10, 43 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- ═══ Ceremony label ═══ -->
+      <p class="ceremony-label">request the honour of your presence<br>at their wedding ceremony</p>
+
+      <!-- ═══ Date ═══ -->
+      <div class="detail-block">
+        <p class="date-text">Saturday, the Fourteenth of June<br>Two Thousand Twenty Six</p>
+      </div>
+
+      <!-- ═══ Divider 2 ═══ -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <svg viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 12 C12 8, 9 5, 8 7 C10 10, 12 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
+          <path d="M14 12 C16 8, 19 5, 20 7 C18 10, 16 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
+          <line x1="14" y1="12" x2="14" y2="4" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- ═══ Time ═══ -->
+      <div class="detail-block">
+        <p class="time-text">Four o'clock in the afternoon</p>
+      </div>
+
+      <!-- ═══ Divider 3 ═══ -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <svg viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 12 C12 8, 9 5, 8 7 C10 10, 12 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
+          <path d="M14 12 C16 8, 19 5, 20 7 C18 10, 16 12, 14 12 Z" fill="#7D9B76" opacity="0.75"/>
+          <line x1="14" y1="12" x2="14" y2="4" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- ═══ Venue ═══ -->
+      <div class="detail-block">
+        <p class="venue-name">The Grand Garden Estate</p>
+        <p class="venue-address">123 Rose Garden Lane, New York</p>
+      </div>
+
+      <!-- ═══ Divider 4 ═══ -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <svg viewBox="0 0 52 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M26 20 C24 15, 20 11, 18 13 C20 17, 23 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
+          <path d="M26 20 C28 15, 32 11, 34 13 C32 17, 29 20, 26 20 Z" fill="#7D9B76" opacity="0.8"/>
+          <path d="M26 20 C26 14, 26 10, 26 8" stroke="#7D9B76" stroke-width="0.9" stroke-linecap="round"/>
+          <path d="M8 18 C6 13, 4 9, 6 8 C8 11, 9 15, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M8 18 C10 13, 13 10, 14 12 C12 15, 10 17, 8 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M8 18 C8 14, 8 10, 9 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+          <path d="M44 18 C46 13, 48 9, 46 8 C44 11, 43 15, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M44 18 C42 13, 39 10, 38 12 C40 15, 42 17, 44 18 Z" fill="#7D9B76" opacity="0.65"/>
+          <path d="M44 18 C44 14, 44 10, 43 7" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round"/>
+        </svg>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- ═══ RSVP ═══ -->
+      <div class="rsvp-block">
+        <p class="rsvp-label">Kindly reply by</p>
+        <p class="rsvp-date">May 1st, Two Thousand Twenty Six</p>
+      </div>
+
+      <!-- ═══ Bottom botanical ornament ═══ -->
+      <svg class="bottom-branch" viewBox="0 0 200 55" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M100 48 C85 40, 64 30, 44 22 C28 16, 14 12, 4 11" stroke="#7D9B76" stroke-width="1.0" stroke-linecap="round" fill="none"/>
+        <path d="M78 36 C70 28, 62 23, 52 20" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+        <path d="M56 24 C48 18, 40 14, 30 13" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none"/>
+        <!-- leaves -->
+        <path d="M74 30 C68 24, 62 20, 59 23 C63 28, 69 31, 74 30 Z" fill="#7D9B76" opacity="0.80"/>
+        <path d="M65 34 C59 29, 53 27, 51 31 C55 34, 61 36, 65 34 Z" fill="#7D9B76" opacity="0.70"/>
+        <path d="M52 20 C46 15, 40 11, 37 14 C41 19, 47 22, 52 20 Z" fill="#7D9B76" opacity="0.80"/>
+        <path d="M34 15 C28 10, 22 8, 20 12 C24 16, 29 17, 34 15 Z" fill="#7D9B76" opacity="0.70"/>
+        <path d="M18 13 C12 8, 6 7, 4 11 C9 14, 14 14, 18 13 Z" fill="#7D9B76" opacity="0.65"/>
+        <!-- berries -->
+        <circle cx="56" cy="22" r="1.8" fill="#7D9B76" opacity="0.50"/>
+        <circle cx="36" cy="15" r="1.6" fill="#7D9B76" opacity="0.45"/>
+        <!-- right side sparse -->
+        <path d="M100 48 C112 40, 130 30, 148 22 C162 16, 176 12, 186 11" stroke="#7D9B76" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <path d="M118 34 C124 28, 132 24, 140 22" stroke="#7D9B76" stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <path d="M120 28 C126 22, 132 19, 137 22 C133 27, 127 29, 120 28 Z" fill="#7D9B76" opacity="0.45"/>
+        <path d="M144 20 C150 15, 158 12, 162 15 C158 20, 152 22, 144 20 Z" fill="#7D9B76" opacity="0.40"/>
+      </svg>
+
+    </div><!-- /.content -->
+  </div><!-- /.card -->
+
+</body>
+</html>
