@@ -10,3 +10,1789 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.23/bundled/lenis.min.js"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --gold: #c9a96e;
+  --gold-light: #e8c98a;
+  --white: #ffffff;
+  --subtle: #1a1a1a;
+  --gray: #888888;
+  --border: rgba(201,169,110,0.15);
+}
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CUSTOM CURSOR ─── */
+#cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  mix-blend-mode: normal;
+}
+#cursor-ring {
+  position: fixed;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(201,169,110,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: all 0.15s ease;
+}
+body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 16px; height: 16px; }
+body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring { width: 60px; height: 60px; border-color: rgba(201,169,110,0.8); }
+
+/* ─── PRELOADER ─── */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#preloader-word {
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+}
+#preloader-word span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+}
+#preloader-line {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+#preloader-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0;
+}
+
+/* ─── GLOBAL STYLES ─── */
+section { position: relative; overflow: hidden; }
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 80px);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  line-height: 1.05;
+}
+
+.gold { color: var(--gold); }
+.gold-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 28px clamp(20px,5vw,80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, transparent 100%);
+  backdrop-filter: blur(0px);
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(10,10,10,0.97);
+  backdrop-filter: blur(20px);
+  padding: 18px clamp(20px,5vw,80px);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-book {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,169,110,0.4);
+  padding: 10px 24px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.nav-book::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+.nav-book:hover { color: var(--bg); }
+.nav-book:hover::before { transform: translateX(0); }
+
+/* ─── HERO ─── */
+#hero {
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 40%, rgba(201,169,110,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(201,169,110,0.03) 0%, transparent 60%),
+    linear-gradient(135deg, #080808 0%, #0f0f0f 50%, #080808 100%);
+  will-change: transform;
+}
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.hero-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.hero-title {
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+.hero-title-line {
+  display: block;
+  overflow: hidden;
+}
+.hero-title-line span {
+  display: block;
+  transform: translateY(110%);
+}
+.hero-subtitle {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 200;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.05em;
+  max-width: 400px;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(20px);
+  margin-bottom: 52px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.btn-primary {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--gold);
+  border: none;
+  padding: 18px 44px;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold-light);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.5s ease;
+}
+.btn-primary:hover::after { transform: translateX(100%) skewX(-15deg); }
+.btn-secondary {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s ease;
+}
+.btn-secondary:hover { color: var(--gold); }
+.btn-secondary::after {
+  content: '↓';
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.btn-secondary:hover::after { transform: translateY(4px); }
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  right: clamp(20px,5vw,80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+}
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.5); opacity: 0.5; }
+}
+.scroll-text {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray);
+  writing-mode: vertical-rl;
+}
+
+/* ─── ABOUT ─── */
+#about {
+  padding: clamp(80px, 15vh, 160px) 0;
+  background: var(--bg);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  opacity: 0;
+}
+.about-heading {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 40px;
+}
+.about-heading .line { display: block; overflow: hidden; }
+.about-heading .line span { display: block; transform: translateY(110%); }
+.about-text {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.stat-item { opacity: 0; transform: translateY(30px); }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.about-visual {
+  position: relative;
+  aspect-ratio: 3/4;
+  max-height: 600px;
+  opacity: 0;
+  transform: translateX(40px);
+}
+.about-img-frame {
+  width: 100%;
+  height: 100%;
+  background: var(--subtle);
+  position: relative;
+  overflow: hidden;
+}
+.about-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,169,110,0.1) 0%, transparent 60%, rgba(201,169,110,0.05) 100%);
+  z-index: 1;
+}
+.about-img-fill {
+  width: 100%;
+  height: 120%;
+  background: linear-gradient(160deg, #1a1510 0%, #0d0d0d 40%, #1a1008 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+.about-img-inner-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 300;
+  color: rgba(201,169,110,0.15);
+  letter-spacing: 0.2em;
+  text-align: center;
+  line-height: 1.3;
+}
+.about-frame-accent {
+  position: absolute;
+  top: -20px; right: -20px;
+  width: 100px; height: 100px;
+  border-top: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+  opacity: 0.4;
+}
+.about-frame-accent2 {
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 100px; height: 100px;
+  border-bottom: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+  opacity: 0.4;
+}
+
+/* ─── SERVICES ─── */
+#services {
+  padding: clamp(80px, 12vh, 120px) 0 0;
+  background: var(--bg);
+}
+.section-header {
+  padding: 0 clamp(20px,5vw,80px);
+  margin-bottom: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.section-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  overflow: hidden;
+}
+.section-title .line { display: block; overflow: hidden; }
+.section-title .line span { display: block; transform: translateY(110%); }
+.section-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 300;
+  color: rgba(201,169,110,0.08);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  opacity: 0;
+}
+.services-scroll-container {
+  overflow: hidden;
+  position: relative;
+}
+.services-track {
+  display: flex;
+  gap: 2px;
+  width: max-content;
+  will-change: transform;
+}
+.service-card {
+  width: clamp(280px, 30vw, 380px);
+  height: clamp(380px, 55vh, 520px);
+  background: var(--subtle);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: none;
+  transition: background 0.4s ease;
+}
+.service-card:hover { background: #1f1c17; }
+.service-card-inner {
+  padding: 48px 44px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+.service-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  opacity: 0.5;
+  letter-spacing: 0.1em;
+}
+.service-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-top: auto;
+}
+.service-desc {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.4);
+  margin: 16px 0;
+}
+.service-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold);
+}
+.service-arrow {
+  position: absolute;
+  bottom: 44px;
+  right: 44px;
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1rem;
+  transform: translate(0,0);
+  transition: all 0.4s ease;
+}
+.service-card:hover .service-arrow {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+  transform: rotate(45deg);
+}
+.service-bg-num {
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem;
+  font-weight: 300;
+  color: rgba(201,169,110,0.04);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+.service-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.service-card:hover .service-line { transform: scaleX(1); }
+.services-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 40px clamp(20px,5vw,80px);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.scroll-hint-line {
+  width: 40px; height: 1px;
+  background: var(--gray);
+  opacity: 0.4;
+}
+
+/* ─── DRAWING LINE ─── */
+.gold-draw-section {
+  padding: 60px clamp(20px,5vw,80px);
+  position: relative;
+}
+.gold-draw-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(201,169,110,0.2) 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ─── MASTERS ─── */
+#masters {
+  padding: clamp(80px, 12vh, 140px) 0;
+  background: var(--bg);
+}
+.masters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.master-card {
+  position: relative;
+  cursor: none;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+  transition: transform 0.1s ease;
+  opacity: 0;
+  translateY: 40px;
+}
+.master-card-img {
+  aspect-ratio: 3/4;
+  background: var(--subtle);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 24px;
+}
+.master-card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.8) 100%);
+}
+.master-img-fill {
+  width: 100%;
+  height: 110%;
+  background: linear-gradient(160deg, #1a1510 0%, #111 40%, #0f0e0c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s ease;
+}
+.master-card:hover .master-img-fill { transform: scale(1.05); }
+.master-portrait {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  font-weight: 300;
+  color: rgba(201,169,110,0.2);
+  letter-spacing: 0.1em;
+}
+.master-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+  background: rgba(10,10,10,0.9);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.master-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 6px;
+}
+.master-role {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 16px;
+}
+.master-bio {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ─── REVIEWS ─── */
+#reviews {
+  padding: clamp(60px, 10vh, 100px) 0;
+  background: var(--subtle);
+  overflow: hidden;
+}
+.reviews-header {
+  padding: 0 clamp(20px,5vw,80px);
+  margin-bottom: 60px;
+}
+.marquee-wrapper {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+  mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.review-card {
+  width: clamp(300px, 35vw, 420px);
+  background: var(--bg);
+  padding: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+.review-card:hover { border-color: rgba(201,169,110,0.4); }
+.review-stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.review-stars span { color: var(--gold); font-size: 0.9rem; }
+.review-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 28px;
+}
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.review-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  border: 1px solid var(--border);
+}
+.review-name {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 3px;
+}
+.review-date { font-size: 0.65rem; color: var(--gray); }
+.review-quote {
+  position: absolute;
+  top: 20px; right: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(201,169,110,0.06);
+  font-weight: 300;
+}
+
+/* ─── CONTACT ─── */
+#contact {
+  padding: clamp(80px, 15vh, 160px) 0;
+  background: var(--bg);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 8vw, 120px);
+  align-items: start;
+}
+.contact-info { opacity: 0; transform: translateX(-40px); }
+.contact-item {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+.contact-item:first-child { border-top: 1px solid var(--border); }
+.contact-item-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.contact-item-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+.contact-form-wrap { opacity: 0; transform: translateX(40px); }
+.form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 300;
+  margin-bottom: 40px;
+  line-height: 1.2;
+}
+.form-group { margin-bottom: 24px; position: relative; }
+.form-group label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 10px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 0;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.3s ease;
+  cursor: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.form-group select option { background: var(--bg); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-bottom-color: var(--gold);
+}
+.form-group textarea { resize: none; height: 80px; }
+.form-line {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0%; height: 1px;
+  background: var(--gold);
+  transition: width 0.4s ease;
+}
+.form-group:focus-within .form-line { width: 100%; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.btn-submit {
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+  border: 1px solid rgba(201,169,110,0.3);
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: none;
+  margin-top: 16px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+.btn-submit span { position: relative; z-index: 1; }
+.btn-submit:hover { color: var(--bg); }
+.btn-submit:hover::before { transform: translateY(0); }
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 40px;
+}
+.form-success-icon {
+  width: 60px; height: 60px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 60px clamp(20px,5vw,80px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+}
+.footer-copy {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--gray);
+}
+.footer-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-visual { max-height: 350px; order: -1; }
+  .masters-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 600px) {
+  .masters-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .footer { flex-direction: column; text-align: center; }
+  .about-stats { grid-template-columns: repeat(3,1fr); gap: 16px; }
+  .stat-num { font-size: 2rem; }
+}
+
+/* ─── REVEAL CLASSES ─── */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div id="preloader-word">
+    <span>L</span><span>U</span><span>M</span><span>I</span><span>È</span><span>R</span><span>E</span>
+  </div>
+  <div id="preloader-line"></div>
+  <div id="preloader-sub">Салон красоты · Саратов</div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">LUMIÈRE</a>
+  <ul class="nav-links">
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#masters">Мастера</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+  <a href="#contact" class="nav-book">Записаться</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-grain"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="heroEyebrow">Люкс Салон Красоты — Саратов</div>
+      <h1 class="hero-title">
+        <span class="hero-title-line"><span>ИСКУССТВО</span></span>
+        <span class="hero-title-line"><span class="gold">КРАСОТЫ</span></span>
+      </h1>
+      <p class="hero-subtitle" id="heroSub">Преображение, вдохновлённое вашей уникальностью. Команда мастеров мирового класса.</p>
+      <div class="hero-cta" id="heroCta">
+        <a href="#contact" class="btn-primary">Записаться на визит</a>
+        <a href="#services" class="btn-secondary">Наши услуги</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" id="scrollIndicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Листать</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left">
+        <div class="about-label reveal">О НАС</div>
+        <h2 class="about-heading">
+          <span class="line"><span>Мастерство,</span></span>
+          <span class="line"><span>рождённое</span></span>
+          <span class="line"><span class="gold">из страсти</span></span>
+        </h2>
+        <p class="about-text reveal">LUMIÈRE — это пространство, где каждый визит становится ритуалом. Мы объединяем передовые техники с персональным подходом, создавая образы, которые отражают вашу суть.</p>
+        <p class="about-text reveal" style="transition-delay:0.1s">Наш салон основан на принципах осознанной красоты: натуральные материалы, этичные бренды и мастера с многолетним международным опытом.</p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-num" data-count="8">0</div>
+            <div class="stat-label">Лет опыта</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-count="2400">0</div>
+            <div class="stat-label">Клиентов</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-count="12">0</div>
+            <div class="stat-label">Мастеров</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-img-frame">
+          <div class="about-img-fill" id="aboutImgFill">
+            <div class="about-img-inner-text">L<br>U<br>M</div>
+          </div>
+        </div>
+        <div class="about-frame-accent"></div>
+        <div class="about-frame-accent2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOLD LINE -->
+<div class="gold-draw-section">
+  <div class="gold-draw-line" id="goldLine1"></div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header">
+    <div>
+      <div class="section-label">НАШИ УСЛУГИ</div>
+      <h2 class="section-title">
+        <span class="line"><span>Всё, что нужно</span></span>
+        <span class="line"><span>для совершенства</span></span>
+      </h2>
+    </div>
+    <div class="section-count" id="serviceCount">06</div>
+  </div>
+  <div class="services-scroll-container" id="servicesContainer">
+    <div class="services-track" id="servicesTrack">
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">01</span>
+          <div>
+            <div class="service-name">Стрижка<br>и укладка</div>
+            <div class="service-desc">Авторские техники от ведущих мастеров. Подбор формы под тип лица.</div>
+            <div class="service-price">2 500 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">01</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">02</span>
+          <div>
+            <div class="service-name">Окрашивание<br>и балаяж</div>
+            <div class="service-desc">Профессиональная палитра, сохраняющая здоровье волос.</div>
+            <div class="service-price">4 500 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">02</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">03</span>
+          <div>
+            <div class="service-name">Маникюр<br>и педикюр</div>
+            <div class="service-desc">Люкс-уход за руками и ногами. Гель-лак, наращивание.</div>
+            <div class="service-price">1 800 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">03</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">04</span>
+          <div>
+            <div class="service-name">Оформление<br>бровей</div>
+            <div class="service-desc">Коррекция, окрашивание и ламинирование. Архитектура взгляда.</div>
+            <div class="service-price">1 200 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">04</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">05</span>
+          <div>
+            <div class="service-name">Уход<br>за лицом</div>
+            <div class="service-desc">Профессиональные процедуры, чистки и омолаживающий массаж.</div>
+            <div class="service-price">3 000 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">05</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <span class="service-num">06</span>
+          <div>
+            <div class="service-name">Свадебный<br>образ</div>
+            <div class="service-desc">Полное преображение: причёска, макияж, образ мечты.</div>
+            <div class="service-price">8 000 ₽</div>
+          </div>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-bg-num">06</div>
+        <div class="service-line"></div>
+      </div>
+    </div>
+  </div>
+  <div class="services-scroll-hint">
+    <div class="scroll-hint-line"></div>
+    Прокрутите карточки
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- GOLD LINE 2 -->
+<div class="gold-draw-section">
+  <div class="gold-draw-line" id="goldLine2"></div>
+</div>
+
+<!-- MASTERS -->
+<section id="masters">
+  <div class="container">
+    <div style="margin-bottom:70px">
+      <div class="section-label reveal">НАШИ МАСТЕРА</div>
+      <h2 class="section-title">
+        <span class="line"><span>Команда</span></span>
+        <span class="line"><span>профессионалов</span></span>
+      </h2>
+    </div>
+    <div class="masters-grid">
+      <div class="master-card" data-tilt>
+        <div class="master-card-img">
+          <div class="master-img-fill">
+            <div class="master-portrait">АЛ</div>
+          </div>
+          <div class="master-badge">Топ-мастер</div>
+        </div>
+        <div class="master-name">Алина Соколова</div>
+        <div class="master-role">Стилист · 9 лет опыта</div>
+        <div class="master-bio">Специалист по авторским стрижкам и окрашиванию. Прошла обучение в Лондоне и Париже.</div>
+      </div>
+      <div class="master-card" data-tilt>
+        <div class="master-card-img">
+          <div class="master-img-fill">
+            <div class="master-portrait">МВ</div>
+          </div>
+          <div class="master-badge">Визажист</div>
+        </div>
+        <div class="master-name">Мария Волкова</div>
+        <div class="master-role">Визажист · 7 лет опыта</div>
+        <div class="master-bio">Мастер свадебного макияжа и творческих образов. Работала с известными брендами моды.</div>
+      </div>
+      <div class="master-card" data-tilt>
+        <div class="master-card-img">
+          <div class="master-img-fill">
+            <div class="master-portrait">ЕН</div>
+          </div>
+          <div class="master-badge">Nail-мастер</div>
+        </div>
+        <div class="master-name">Елена Никитина</div>
+        <div class="master-role">Nail Art · 6 лет опыта</div>
+        <div class="master-bio">Победитель региональных чемпионатов по ногтевому дизайну. Автор уникальных техник.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header">
+    <div class="section-label reveal">ОТЗЫВЫ</div>
+    <h2 class="section-title">
+      <span class="line"><span>Что говорят</span></span>
+      <span class="line"><span>наши клиенты</span></span>
+    </h2>
+  </div>
+  <div class="marquee-wrapper">
+    <div class="marquee-track" id="marqueeTrack">
+      <!-- cards will be duplicated by JS -->
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Лучший салон в Саратове без преувеличения. Алина сделала мне именно то, о чём я мечтала. Буду возвращаться снова и снова!»</div>
+        <div class="review-author">
+          <div class="review-avatar">О</div>
+          <div>
+            <div class="review-name">Ольга Карпова</div>
+            <div class="review-date">Март 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Делала свадебный образ у Марии. Это было волшебно — держался весь день и выглядел идеально на фотографиях!»</div>
+        <div class="review-author">
+          <div class="review-avatar">Н</div>
+          <div>
+            <div class="review-name">Наталья Смирнова</div>
+            <div class="review-date">Апрель 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Маникюр у Елены — это произведение искусства. Очень внимательный подход, красивые результаты и приятная атмосфера.»</div>
+        <div class="review-author">
+          <div class="review-avatar">А</div>
+          <div>
+            <div class="review-name">Анастасия Лебедева</div>
+            <div class="review-date">Февраль 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Окрашивание вышло потрясающим! Цвет натуральный, переход плавный. Впервые не страшно экспериментировать с волосами.»</div>
+        <div class="review-author">
+          <div class="review-avatar">Е</div>
+          <div>
+            <div class="review-name">Екатерина Орлова</div>
+            <div class="review-date">Январь 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Уход за лицом в LUMIÈRE — это что-то особенное. Кожа светилась после процедуры. Записалась сразу на следующий месяц!»</div>
+        <div class="review-author">
+          <div class="review-avatar">И</div>
+          <div>
+            <div class="review-name">Ирина Петрова</div>
+            <div class="review-date">Май 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="review-text">«Брови оформили идеально. Мастер подобрал форму именно под мой тип лица. Теперь не могу представить без этой процедуры!»</div>
+        <div class="review-author">
+          <div class="review-avatar">В</div>
+          <div>
+            <div class="review-name">Валерия Новикова</div>
+            <div class="review-date">Июнь 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div style="margin-bottom:80px">
+      <div class="section-label reveal">КОНТАКТЫ</div>
+      <h2 class="section-title">
+        <span class="line"><span>Запишитесь</span></span>
+        <span class="line"><span>к нам</span></span>
+      </h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-label">Адрес</div>
+          <div class="contact-item-value">г. Саратов, ул. Чернышевского, 153<br>2 этаж, офис 201</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Телефон</div>
+          <div class="contact-item-value">+7 (845) 268-42-00</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Режим работы</div>
+          <div class="contact-item-value">Пн–Пт: 10:00 – 21:00<br>Сб–Вс: 10:00 – 20:00</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">hello@lumiere-salon.ru</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Социальные сети</div>
+          <div class="contact-item-value" style="font-size:1rem">Instagram · VK · Telegram</div>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <div class="form-title">Оставьте заявку,<br>мы свяжемся с вами</div>
+        <form id="bookingForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Имя</label>
+              <input type="text" placeholder="Ваше имя" required>
+              <div class="form-line"></div>
+            </div>
+            <div class="form-group">
+              <label>Телефон</label>
+              <input type="tel" placeholder="+7 (___) ___-__-__" required>
+              <div class="form-line"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Услуга</label>
+            <select required>
+              <option value="" disabled selected>Выберите услугу</option>
+              <option>Стрижка и укладка</option>
+              <option>Окрашивание и балаяж</option>
+              <option>Маникюр и педикюр</option>
+              <option>Оформление бровей</option>
+              <option>Уход за лицом</option>
+              <option>Свадебный образ</option>
+            </select>
+            <div class="form-line"></div>
+          </div>
+          <div class="form-group">
+            <label>Предпочтительное время</label>
+            <input type="text" placeholder="Например: Пятница, вечер">
+            <div class="form-line"></div>
+          </div>
+          <div class="form-group">
+            <label>Комментарий</label>
+            <textarea placeholder="Пожелания или вопросы..."></textarea>
+            <div class="form-line"></div>
+          </div>
+          <button type="submit" class="btn-submit"><span>Отправить заявку</span></button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✓</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:12px">Заявка отправлена!</div>
+          <div style="color:var(--gray);font-size:0.85rem">Мы свяжемся с вами в течение часа</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LUMIÈRE</div>
+  <div class="footer-copy">© 2024 LUMIÈRE. Все права защищены.</div>
+  <ul class="footer-links">
+    <li><a href="#">Политика конфиденциальности</a></li>
+    <li><a href="#">VK</a></li>
+    <li><a href="#">Telegram</a></li>
+  </ul>
+</footer>
+
+<script>
+// ─── CURSOR ───
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  cursorRing.style.left = ringX + 'px';
+  cursorRing.style.top = ringY + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// ─── LENIS SMOOTH SCROLL ───
+const lenis = new Lenis({
+  duration: 1.4,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+  smoothTouch: false
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+// ─── GSAP PLUGINS ───
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+// ─── PRELOADER ───
+const preloaderLetters = document.querySelectorAll('#preloader-word span');
+const preloaderLine = document.getElementById('preloader-line');
+const preloaderSub = document.getElementById('preloader-sub');
+const preloader = document.getElementById('preloader');
+
+const tl = gsap.timeline({
+  onComplete: () => {
+    gsap.to(preloader, {
+      yPercent: -100,
+      duration: 0.9,
+      ease: 'expo.inOut',
+      onComplete: () => { preloader.style.display = 'none'; }
+    });
+    initPageAnimations();
+  }
+});
+
+tl.to(preloaderLetters, {
+  y: 0,
+  opacity: 1,
+  duration: 0.06,
+  stagger: 0.08,
+  ease: 'power3.out'
+})
+.to(preloaderLine, { width: '200px', opacity: 0.5, duration: 0.6, ease: 'expo.out' }, '-=0.2')
+.to(preloaderSub, { opacity: 1, duration: 0.5 }, '-=0.3')
+.to({}, { duration: 0.8 })
+.to(preloaderLetters, { y: -20, opacity: 0, stagger: 0.04, duration: 0.4, ease: 'power2.in' })
+.to([preloaderLine, preloaderSub], { opacity: 0, duration: 0.3 }, '-=0.3');
+
+// ─── PAGE ANIMATIONS ───
+function initPageAnimations() {
+  // Nav
+  gsap.to('#navbar', { opacity: 1, duration: 0.8, ease: 'power2.out' });
+
+  // Nav scroll behavior
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 80) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, { passive: true });
+
+  // ─── HERO ───
+  gsap.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' });
+  gsap.to('.hero-title-line span', {
+    y: 0,
+    duration: 1.2,
+    stagger: 0.15,
+    delay: 0.4,
+    ease: 'expo.out'
+  });
+  gsap.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, delay: 0.9, ease: 'power2.out' });
+  gsap.to('#heroCta', { opacity: 1, y: 0, duration: 0.8, delay: 1.1, ease: 'power2.out' });
+  gsap.to('#scrollIndicator', { opacity: 1, duration: 0.8, delay: 1.5 });
+
+  // Hero parallax
+  gsap.to('#heroBg', {
+    yPercent: 20,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    }
+  });
+
+  // ─── ABOUT ───
+  ScrollTrigger.create({
+    trigger: '#about',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('.about-label', { opacity: 1, y: 0, duration: 0.6 });
+      gsap.to('.about-heading .line span', {
+        y: 0,
+        duration: 1,
+        stagger: 0.1,
+        ease: 'expo.out',
+        delay: 0.1
+      });
+      gsap.to('.about-text', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        delay: 0.3
+      });
+      gsap.to('.about-visual', { opacity: 1, x: 0, duration: 0.9, delay: 0.2, ease: 'power2.out' });
+      gsap.to('.stat-item', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        delay: 0.5
+      });
+    }
+  });
+
+  // About parallax
+  gsap.to('#aboutImgFill', {
+    yPercent: -8,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#about',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1.5
+    }
+  });
+
+  // Count up numbers
+  document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 80%',
+      onEnter: () => {
+        gsap.to({ val: 0 }, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          onUpdate: function() {
+            el.textContent = Math.round(this.targets()[0].val) + (target > 100 ? '+' : '');
+          }
+        });
+      }
+    });
+  });
+
+  // ─── GOLD LINES ───
+  gsap.to('#goldLine1', {
+    scaleX: 1,
+    duration: 1.2,
+    ease: 'expo.out',
+    scrollTrigger: {
+      trigger: '#goldLine1',
+      start: 'top 80%'
+    }
+  });
+  gsap.to('#goldLine2', {
+    scaleX: 1,
+    duration: 1.2,
+    ease: 'expo.out',
+    scrollTrigger: {
+      trigger: '#goldLine2',
+      start: 'top 80%'
+    }
+  });
+
+  // ─── SERVICES horizontal scroll ───
+  const servicesTrack = document.getElementById('servicesTrack');
+  const servicesContainer = document.getElementById('servicesContainer');
+
+  const totalWidth = servicesTrack.scrollWidth;
+  const containerWidth = servicesContainer.offsetWidth;
+  const scrollDist = totalWidth - containerWidth;
+
+  // Label and title
+  ScrollTrigger.create({
+    trigger: '#services',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('.section-label', { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 });
+      gsap.to('#services .section-title .line span', {
+        y: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out', delay: 0.1
+      });
+      gsap.to('#serviceCount', { opacity: 1, duration: 0.5, delay: 0.3 });
+    }
+  });
+
+  // Horizontal scroll via GSAP ScrollTrigger
+  gsap.to(servicesTrack, {
+    x: -scrollDist,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#services',
+      start: 'top top',
+      end: () => `+=${scrollDist + window.innerHeight * 0.5}`,
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // ─── MASTERS ───
+  gsap.to('.master-card', {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#masters',
+      start: 'top 70%'
+    }
+  });
+
+  // Masters section label
+  ScrollTrigger.create({
+    trigger: '#masters',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('#masters .section-title .line span', {
+        y: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out', delay: 0.1
+      });
+    }
+  });
+
+  // 3D Tilt on master cards
+  document.querySelectorAll('[data-tilt]').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotY = ((x - cx) / cx) * 8;
+      const rotX = -((y - cy) / cy) * 8;
+      gsap.to(card, {
+        rotateX: rotX,
+        rotateY: rotY,
+        transformPerspective: 1000,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1,0.7)' });
+    });
+  });
+
+  // ─── REVIEWS ───
+  ScrollTrigger.create({
+    trigger: '#reviews',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('#reviews .section-title .line span', {
+        y: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out', delay: 0.1
+      });
+    }
+  });
+
+  // Duplicate marquee items for seamless loop
+  const track = document.getElementById('marqueeTrack');
+  const cards = track.innerHTML;
+  track.innerHTML = cards + cards;
+
+  // ─── CONTACT ───
+  ScrollTrigger.create({
+    trigger: '#contact',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('#contact .section-title .line span', {
+        y: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out', delay: 0.1
+      });
+      gsap.to('.contact-info', { opacity: 1, x: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' });
+      gsap.to('.contact-form-wrap', { opacity: 1, x: 0, duration: 0.8, delay: 0.4, ease: 'power2.out' });
+    }
+  });
+
+  // ─── GENERIC REVEAL ───
+  document.querySelectorAll('.reveal').forEach(el => {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 80%',
+      onEnter: () => {
+        gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+      }
+    });
+  });
+
+  // ─── MAGNETIC BUTTONS ───
+  document.querySelectorAll('.btn-primary, .nav-book, .btn-submit').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(btn, { x: x * 0.25, y: y * 0.25, duration: 0.4, ease: 'power2.out' });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.5)' });
+    });
+  });
+}
+
+// ─── FORM SUBMIT ───
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this;
+  const success = document.getElementById('formSuccess');
+  gsap.to(form, {
+    opacity: 0,
+    y: -20,
+    duration: 0.4,
+    onComplete: () => {
+      form.style.display = 'none';
+      success.style.display = 'block';
+      gsap.from(success, { opacity: 0, y: 20, duration: 0.5, ease: 'power2.out' });
+    }
+  });
+});
+
+// ─── SMOOTH ANCHOR LINKS ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      lenis.scrollTo(target, { duration: 1.6, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    }
+  });
+});
+
+// ─── PHONE INPUT MASK ───
+const phoneInput = document.querySelector('input[type="tel"]');
+if (phoneInput) {
+  phoneInput.addEventListener('input', function() {
+    let val = this.value.replace(/\D/g, '');
+    if (val.startsWith('7') || val.startsWith('8')) val = val.slice(1);
+    if (val.length > 10) val = val.slice(0, 10);
+    let formatted = '+7';
+    if (val.length > 0) formatted += ' (' + val.slice(0, 3);
+    if (val.length >= 3) formatted += ') ' + val.slice(3, 6);
+    if (val.length >= 6) formatted += '-' + val.slice(6, 8);
+    if (val.length >= 8) formatted += '-' + val.slice(8, 10);
+    this.value = formatted;
+  });
+}
+</script>
+</body>
+</html>
