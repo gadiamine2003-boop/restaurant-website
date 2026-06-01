@@ -34,14 +34,10 @@
       cursor: default;
     }
 
-    /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--dark); }
     ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
 
-    /* ══════════════════════════════════════
-       NAV
-    ══════════════════════════════════════ */
     #nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -114,9 +110,6 @@
 
     .nav-cta:hover { background: #b81d00 !important; color: var(--white) !important; }
 
-    /* ══════════════════════════════════════
-       HERO
-    ══════════════════════════════════════ */
     #hero {
       position: relative;
       height: 100vh;
@@ -234,9 +227,6 @@
       to { opacity: 1; }
     }
 
-    /* ══════════════════════════════════════
-       TICKER / STORY
-    ══════════════════════════════════════ */
     #story {
       background: var(--dark2);
       padding: 0 0 100px;
@@ -298,9 +288,6 @@
       font-weight: 700;
     }
 
-    /* ══════════════════════════════════════
-       SECTION SHARED
-    ══════════════════════════════════════ */
     .section {
       padding: 120px 48px;
       max-width: 1280px;
@@ -344,9 +331,6 @@
       line-height: 1;
     }
 
-    /* ══════════════════════════════════════
-       BURGER CARDS
-    ══════════════════════════════════════ */
     #burgers { background: var(--dark); }
 
     .card-grid {
@@ -441,9 +425,6 @@
       color: var(--white);
     }
 
-    /* ══════════════════════════════════════
-       COMBOS
-    ══════════════════════════════════════ */
     #combos { background: var(--dark2); }
 
     .combo-grid {
@@ -549,9 +530,6 @@
 
     .combo-btn:hover { background: #b81d00; }
 
-    /* ══════════════════════════════════════
-       DRINKS
-    ══════════════════════════════════════ */
     #drinks { background: var(--dark); }
 
     .drinks-scroll-outer {
@@ -610,14 +588,8 @@
       color: var(--yellow);
     }
 
-    /* ══════════════════════════════════════
-       DESSERTS
-    ══════════════════════════════════════ */
     #desserts { background: var(--dark2); }
 
-    /* ══════════════════════════════════════
-       ORDER CTA
-    ══════════════════════════════════════ */
     #order {
       position: relative;
       min-height: 100vh;
@@ -707,9 +679,6 @@
 
     .order-btn:hover .arrow { transform: translateX(4px); }
 
-    /* ══════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════ */
     #footer {
       background: #0d0d0d;
       border-top: 1px solid rgba(255,255,255,0.05);
@@ -774,9 +743,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* ══════════════════════════════════════
-       ANIMATIONS (IntersectionObserver)
-    ══════════════════════════════════════ */
     .reveal-up {
       opacity: 0;
       transform: translateY(50px);
@@ -788,9 +754,6 @@
       transform: translateY(0);
     }
 
-    /* ══════════════════════════════════════
-       DIVIDERS
-    ══════════════════════════════════════ */
     .section-divider {
       width: 60px;
       height: 3px;
@@ -799,24 +762,13 @@
       border-radius: 2px;
     }
 
-    /* ══════════════════════════════════════
-       MOBILE
-    ══════════════════════════════════════ */
     @media (max-width: 768px) {
       #nav { padding: 0 20px; }
-
-      .nav-links {
-        display: none;
-      }
-
+      .nav-links { display: none; }
       .section { padding: 80px 20px; }
-
       .section-number { font-size: 80px; }
-
       .story-body { padding: 0 24px; }
-
       #footer { padding: 40px 20px; }
-
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
 
@@ -824,9 +776,6 @@
       .hero-scroll { display: none; }
     }
 
-    /* ══════════════════════════════════════
-       HAMBURGER MENU (mobile)
-    ══════════════════════════════════════ */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -847,9 +796,6 @@
       .hamburger { display: flex; }
     }
 
-    /* ══════════════════════════════════════
-       LOADING SHIMMER for images
-    ══════════════════════════════════════ */
     .card-img-wrap {
       background: linear-gradient(90deg, #1e1e1e 25%, #2a2a2a 50%, #1e1e1e 75%);
       background-size: 200% 100%;
@@ -863,7 +809,6 @@
 
     .card-img-wrap img { animation: none; }
 
-    /* Line separator between sections */
     .section-separator {
       width: 100%;
       height: 1px;
@@ -873,13 +818,11 @@
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">
     <div class="nav-logo-icon">BK</div>
     <span class="nav-logo-text">BURGER KING</span>
   </a>
-
   <ul class="nav-links">
     <li><a href="#burgers">Menu</a></li>
     <li><a href="#combos">Combos</a></li>
@@ -887,17 +830,14 @@
     <li><a href="#desserts">Desserts</a></li>
     <li><a href="#order" class="nav-cta">Order Now</a></li>
   </ul>
-
   <div class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-noise"></div>
-
   <div class="hero-content">
     <p class="hero-eyebrow">Est. 1954 &nbsp;·&nbsp; Flame Grilled</p>
     <h1 class="hero-headline">
@@ -907,21 +847,16 @@
     </h1>
     <p class="hero-sub">Fresh. Flame-grilled. Unforgettable.</p>
   </div>
-
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- ══ STORY ══ -->
 <section id="story">
   <div class="ticker-wrap">
-    <div class="ticker-track" id="ticker-track">
-      <!-- JS fills this -->
-    </div>
+    <div class="ticker-track" id="ticker-track"></div>
   </div>
-
   <div class="story-body reveal-up">
     <p>
       You walk in.<br />
@@ -936,7 +871,6 @@
 
 <div class="section-separator"></div>
 
-<!-- ══ BURGERS ══ -->
 <section id="burgers">
   <div class="section">
     <div class="section-header">
@@ -946,85 +880,41 @@
         <div class="section-title">Iconic Burgers</div>
       </div>
     </div>
-
     <div class="card-grid">
-      <!-- Whopper -->
       <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80&auto=format&fit=crop"
-            alt="Whopper"
-            loading="lazy"
-          />
-        </div>
+        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80&auto=format&fit=crop" alt="Whopper" loading="lazy" /></div>
         <div class="card-body">
           <div class="card-name">WHOPPER</div>
           <div class="card-name-ru">Воппер</div>
           <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">389 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
+          <div class="card-bottom"><div class="card-price">389 ₽</div><button class="card-btn">Add to Order</button></div>
         </div>
       </div>
-
-      <!-- Double Whopper -->
       <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=80&auto=format&fit=crop"
-            alt="Double Whopper"
-            loading="lazy"
-          />
-        </div>
+        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=80&auto=format&fit=crop" alt="Double Whopper" loading="lazy" /></div>
         <div class="card-body">
           <div class="card-name">DOUBLE WHOPPER</div>
           <div class="card-name-ru">Дабл Воппер</div>
           <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">469 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
+          <div class="card-bottom"><div class="card-price">469 ₽</div><button class="card-btn">Add to Order</button></div>
         </div>
       </div>
-
-      <!-- Chicken Royal -->
       <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&q=80&auto=format&fit=crop"
-            alt="Chicken Royal"
-            loading="lazy"
-          />
-        </div>
+        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&q=80&auto=format&fit=crop" alt="Chicken Royal" loading="lazy" /></div>
         <div class="card-body">
           <div class="card-name">CHICKEN ROYAL</div>
           <div class="card-name-ru">Чикен Роял</div>
           <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">299 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
+          <div class="card-bottom"><div class="card-price">299 ₽</div><button class="card-btn">Add to Order</button></div>
         </div>
       </div>
-
-      <!-- Big King -->
       <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80&auto=format&fit=crop"
-            alt="Big King"
-            loading="lazy"
-          />
-        </div>
+        <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80&auto=format&fit=crop" alt="Big King" loading="lazy" /></div>
         <div class="card-body">
           <div class="card-name">BIG KING</div>
           <div class="card-name-ru">Биг Кинг</div>
           <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">349 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
+          <div class="card-bottom"><div class="card-price">349 ₽</div><button class="card-btn">Add to Order</button></div>
         </div>
       </div>
     </div>
@@ -1033,7 +923,6 @@
 
 <div class="section-separator"></div>
 
-<!-- ══ COMBOS ══ -->
 <section id="combos">
   <div class="section">
     <div class="section-header">
@@ -1043,51 +932,27 @@
         <div class="section-title">Go Bigger</div>
       </div>
     </div>
-
     <div class="combo-grid">
       <div class="combo-card">
         <div class="combo-badge">★ Best Value</div>
         <div class="combo-num">01</div>
         <div class="combo-title">THE KING COMBO</div>
-        <div class="combo-includes">
-          <strong>Whopper</strong><br />
-          Medium Fries<br />
-          Large Coca-Cola
-        </div>
-        <div class="combo-bottom">
-          <div class="combo-price">549 ₽</div>
-          <button class="combo-btn">Order Now</button>
-        </div>
+        <div class="combo-includes"><strong>Whopper</strong><br />Medium Fries<br />Large Coca-Cola</div>
+        <div class="combo-bottom"><div class="combo-price">549 ₽</div><button class="combo-btn">Order Now</button></div>
       </div>
-
       <div class="combo-card">
         <div class="combo-badge">🔥 Fan Favourite</div>
         <div class="combo-num">02</div>
         <div class="combo-title">DOUBLE FIRE</div>
-        <div class="combo-includes">
-          <strong>Double Whopper</strong><br />
-          Large Fries<br />
-          Large Sprite + Dip
-        </div>
-        <div class="combo-bottom">
-          <div class="combo-price">649 ₽</div>
-          <button class="combo-btn">Order Now</button>
-        </div>
+        <div class="combo-includes"><strong>Double Whopper</strong><br />Large Fries<br />Large Sprite + Dip</div>
+        <div class="combo-bottom"><div class="combo-price">649 ₽</div><button class="combo-btn">Order Now</button></div>
       </div>
-
       <div class="combo-card">
         <div class="combo-badge">🍗 Crispy Pick</div>
         <div class="combo-num">03</div>
         <div class="combo-title">ROYAL CRISPY</div>
-        <div class="combo-includes">
-          <strong>Chicken Royal</strong><br />
-          Medium Fries<br />
-          Fanta + Sundae
-        </div>
-        <div class="combo-bottom">
-          <div class="combo-price">499 ₽</div>
-          <button class="combo-btn">Order Now</button>
-        </div>
+        <div class="combo-includes"><strong>Chicken Royal</strong><br />Medium Fries<br />Fanta + Sundae</div>
+        <div class="combo-bottom"><div class="combo-price">499 ₽</div><button class="combo-btn">Order Now</button></div>
       </div>
     </div>
   </div>
@@ -1095,7 +960,6 @@
 
 <div class="section-separator"></div>
 
-<!-- ══ DRINKS ══ -->
 <section id="drinks">
   <div class="section">
     <div class="section-header">
@@ -1105,68 +969,14 @@
         <div class="section-title">Drinks</div>
       </div>
     </div>
-
     <div class="drinks-scroll-outer">
       <div class="drinks-row">
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80&auto=format&fit=crop"
-            alt="Coca-Cola" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">COCA-COLA</div>
-            <div class="drink-price">99 ₽</div>
-          </div>
-        </div>
-
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&q=80&auto=format&fit=crop"
-            alt="Sprite" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">SPRITE</div>
-            <div class="drink-price">99 ₽</div>
-          </div>
-        </div>
-
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1547414368-ac947d00b91d?w=400&q=80&auto=format&fit=crop"
-            alt="Fanta" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">FANTA</div>
-            <div class="drink-price">99 ₽</div>
-          </div>
-        </div>
-
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80&auto=format&fit=crop"
-            alt="Coffee" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">COFFEE</div>
-            <div class="drink-price">129 ₽</div>
-          </div>
-        </div>
-
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&q=80&auto=format&fit=crop"
-            alt="Milkshake" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">MILKSHAKE</div>
-            <div class="drink-price">179 ₽</div>
-          </div>
-        </div>
-
-        <div class="drink-card">
-          <img class="drink-img"
-            src="https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=400&q=80&auto=format&fit=crop"
-            alt="Iced Tea" loading="lazy" />
-          <div class="drink-body">
-            <div class="drink-name">ICED TEA</div>
-            <div class="drink-price">109 ₽</div>
-          </div>
-        </div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80&auto=format&fit=crop" alt="Coca-Cola" loading="lazy" /><div class="drink-body"><div class="drink-name">COCA-COLA</div><div class="drink-price">99 ₽</div></div></div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&q=80&auto=format&fit=crop" alt="Sprite" loading="lazy" /><div class="drink-body"><div class="drink-name">SPRITE</div><div class="drink-price">99 ₽</div></div></div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1547414368-ac947d00b91d?w=400&q=80&auto=format&fit=crop" alt="Fanta" loading="lazy" /><div class="drink-body"><div class="drink-name">FANTA</div><div class="drink-price">99 ₽</div></div></div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80&auto=format&fit=crop" alt="Coffee" loading="lazy" /><div class="drink-body"><div class="drink-name">COFFEE</div><div class="drink-price">129 ₽</div></div></div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&q=80&auto=format&fit=crop" alt="Milkshake" loading="lazy" /><div class="drink-body"><div class="drink-name">MILKSHAKE</div><div class="drink-price">179 ₽</div></div></div>
+        <div class="drink-card"><img class="drink-img" src="https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=400&q=80&auto=format&fit=crop" alt="Iced Tea" loading="lazy" /><div class="drink-body"><div class="drink-name">ICED TEA</div><div class="drink-price">109 ₽</div></div></div>
       </div>
     </div>
   </div>
@@ -1174,7 +984,6 @@
 
 <div class="section-separator"></div>
 
-<!-- ══ DESSERTS ══ -->
 <section id="desserts">
   <div class="section">
     <div class="section-header">
@@ -1184,86 +993,30 @@
         <div class="section-title">Desserts</div>
       </div>
     </div>
-
     <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-      <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop"
-            alt="Sundae" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <div class="card-name">SUNDAE</div>
-          <div class="card-name-ru">Шоколадный / Карамельный</div>
-          <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">129 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=80&auto=format&fit=crop"
-            alt="Apple Pie" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <div class="card-name">APPLE PIE</div>
-          <div class="card-name-ru">Яблочный Пирог</div>
-          <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">89 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="burger-card">
-        <div class="card-img-wrap">
-          <img
-            src="https://images.unsplash.com/photo-1567206563114-c179706e2aab?w=600&q=80&auto=format&fit=crop"
-            alt="Soft Serve" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <div class="card-name">SOFT SERVE</div>
-          <div class="card-name-ru">Мороженое</div>
-          <div class="section-divider" style="width:32px;margin-bottom:10px;"></div>
-          <div class="card-bottom">
-            <div class="card-price">69 ₽</div>
-            <button class="card-btn">Add to Order</button>
-          </div>
-        </div>
-      </div>
+      <div class="burger-card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop" alt="Sundae" loading="lazy" /></div><div class="card-body"><div class="card-name">SUNDAE</div><div class="card-name-ru">Шоколадный / Карамельный</div><div class="section-divider" style="width:32px;margin-bottom:10px;"></div><div class="card-bottom"><div class="card-price">129 ₽</div><button class="card-btn">Add to Order</button></div></div></div>
+      <div class="burger-card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=80&auto=format&fit=crop" alt="Apple Pie" loading="lazy" /></div><div class="card-body"><div class="card-name">APPLE PIE</div><div class="card-name-ru">Яблочный Пирог</div><div class="section-divider" style="width:32px;margin-bottom:10px;"></div><div class="card-bottom"><div class="card-price">89 ₽</div><button class="card-btn">Add to Order</button></div></div></div>
+      <div class="burger-card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1567206563114-c179706e2aab?w=600&q=80&auto=format&fit=crop" alt="Soft Serve" loading="lazy" /></div><div class="card-body"><div class="card-name">SOFT SERVE</div><div class="card-name-ru">Мороженое</div><div class="section-divider" style="width:32px;margin-bottom:10px;"></div><div class="card-bottom"><div class="card-price">69 ₽</div><button class="card-btn">Add to Order</button></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ══ ORDER CTA ══ -->
 <section id="order">
   <canvas id="particles-canvas"></canvas>
-
   <div class="order-inner">
     <p class="order-eyebrow">Ready When You Are</p>
-    <h2 class="order-headline">
-      Ready to<br /><em>Order?</em>
-    </h2>
+    <h2 class="order-headline">Ready to<br /><em>Order?</em></h2>
     <p class="order-sub">Your flame-grilled meal is waiting.</p>
-    <button class="order-btn">
-      Order Now <span class="arrow">→</span>
-    </button>
+    <button class="order-btn">Order Now <span class="arrow">→</span></button>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
 <footer id="footer">
   <div class="footer-inner">
     <div class="footer-logo">
       <div class="footer-logo-icon">BK</div>
       <span class="footer-logo-text">BURGER KING</span>
     </div>
-
     <ul class="footer-links">
       <li><a href="#burgers">Menu</a></li>
       <li><a href="#combos">Combos</a></li>
@@ -1271,109 +1024,70 @@
       <li><a href="#desserts">Desserts</a></li>
       <li><a href="#order">Order Now</a></li>
     </ul>
-
     <p class="footer-copy">© 2024 Burger King Russia. All rights reserved.</p>
   </div>
 </footer>
 
-
-<!-- ══ SCRIPTS ══ -->
 <script>
-  /* ── TICKER ── */
   (function() {
     const words = ['FLAME GRILLED', 'CRISPY', 'JUICY', 'HOT', 'FRESH', 'MADE FOR YOU'];
     const track = document.getElementById('ticker-track');
-    // Duplicate for infinite loop
     const build = () => words.map(w => `<span>${w}</span><span class="sep">•</span>`).join('');
     track.innerHTML = build() + build() + build() + build();
   })();
 
-  /* ── INTERSECTION OBSERVER — generic reveal ── */
   const revealEls = document.querySelectorAll('.reveal-up');
   const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        revealObserver.unobserve(e.target);
-      }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
   }, { threshold: 0.15 });
   revealEls.forEach(el => revealObserver.observe(el));
 
-  /* ── BURGER CARDS reveal with stagger ── */
   const burgerCards = document.querySelectorAll('.burger-card');
   const cardObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         const cards = e.target.closest('.card-grid')?.querySelectorAll('.burger-card') || [];
-        cards.forEach((c, i) => {
-          setTimeout(() => {
-            c.style.opacity = '1';
-            c.style.transform = 'translateY(0)';
-            c.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-          }, i * 100);
-        });
+        cards.forEach((c, i) => { setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'translateY(0)'; c.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; }, i * 100); });
         cardObserver.unobserve(e.target);
       }
     });
   }, { threshold: 0.1 });
   burgerCards.forEach(c => cardObserver.observe(c));
 
-  /* ── COMBO CARDS reveal ── */
   const comboCards = document.querySelectorAll('.combo-card');
   const comboObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         const cards = e.target.closest('.combo-grid')?.querySelectorAll('.combo-card') || [];
-        cards.forEach((c, i) => {
-          setTimeout(() => {
-            c.style.opacity = '1';
-            c.style.transform = 'translateY(0)';
-            c.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-          }, i * 130);
-        });
+        cards.forEach((c, i) => { setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'translateY(0)'; c.style.transition = 'opacity 0.7s ease, transform 0.7s ease'; }, i * 130); });
         comboObserver.unobserve(e.target);
       }
     });
   }, { threshold: 0.1 });
   comboCards.forEach(c => comboObserver.observe(c));
 
-  /* ── DRINK CARDS reveal ── */
   const drinkCards = document.querySelectorAll('.drink-card');
   const drinkObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        const cards = document.querySelectorAll('.drink-card');
-        cards.forEach((c, i) => {
-          setTimeout(() => {
-            c.style.opacity = '1';
-            c.style.transform = 'translateX(0)';
-            c.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-          }, i * 80);
-        });
+        document.querySelectorAll('.drink-card').forEach((c, i) => { setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'translateX(0)'; c.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; }, i * 80); });
         drinkObserver.unobserve(e.target);
       }
     });
   }, { threshold: 0.05 });
   if (drinkCards[0]) drinkObserver.observe(drinkCards[0]);
 
-  /* ── ORDER SECTION animate ── */
   const orderSection = document.querySelector('#order');
   const orderEyebrow = document.querySelector('.order-eyebrow');
   const orderHeadline = document.querySelector('.order-headline');
   const orderSub = document.querySelector('.order-sub');
   const orderBtn = document.querySelector('.order-btn');
-
   const orderObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         [orderEyebrow, orderHeadline, orderSub, orderBtn].forEach((el, i) => {
           if (!el) return;
-          setTimeout(() => {
-            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-          }, i * 150);
+          setTimeout(() => { el.style.transition = 'opacity 0.7s ease, transform 0.7s ease'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, i * 150);
         });
         orderObserver.unobserve(e.target);
       }
@@ -1381,10 +1095,8 @@
   }, { threshold: 0.2 });
   if (orderSection) orderObserver.observe(orderSection);
 
-  /* ── SECTION NUMBERS parallax on scroll ── */
   const sectionNums = document.querySelectorAll('.section-number');
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
     sectionNums.forEach(n => {
       const rect = n.getBoundingClientRect();
       const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.08;
@@ -1392,22 +1104,15 @@
     });
   }, { passive: true });
 
-  /* ── PARTICLE EMBERS ── */
   (function() {
     const canvas = document.getElementById('particles-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-
-    function resize() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
+    function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
     resize();
     window.addEventListener('resize', resize, { passive: true });
-
     class Ember {
       constructor() { this.reset(); }
-
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = canvas.height + 20;
@@ -1416,78 +1121,46 @@
         this.speedX = (Math.random() - 0.5) * 0.8;
         this.life = 1;
         this.decay = Math.random() * 0.004 + 0.002;
-        this.hue = Math.random() > 0.5 ? 20 : 38; // orange or yellow
+        this.hue = Math.random() > 0.5 ? 20 : 38;
       }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life -= this.decay;
-        this.speedX += (Math.random() - 0.5) * 0.04;
-        if (this.life <= 0) this.reset();
-      }
-
+      update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; this.speedX += (Math.random() - 0.5) * 0.04; if (this.life <= 0) this.reset(); }
       draw() {
         ctx.save();
         ctx.globalAlpha = this.life * 0.7;
-        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
-        gradient.addColorStop(0, `hsla(${this.hue}, 100%, 70%, 1)`);
-        gradient.addColorStop(1, `hsla(${this.hue}, 100%, 40%, 0)`);
-        ctx.fillStyle = gradient;
+        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
+        g.addColorStop(0, `hsla(${this.hue}, 100%, 70%, 1)`);
+        g.addColorStop(1, `hsla(${this.hue}, 100%, 40%, 0)`);
+        ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
     }
-
-    const embers = Array.from({ length: 80 }, () => {
-      const e = new Ember();
-      // Spread initial y
-      e.y = Math.random() * canvas.height;
-      e.life = Math.random();
-      return e;
-    });
-
+    const embers = Array.from({ length: 80 }, () => { const e = new Ember(); e.y = Math.random() * canvas.height; e.life = Math.random(); return e; });
     let animId;
     const orderEl = document.querySelector('#order');
-
     const particleObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (!animId) loop();
-        } else {
-          if (animId) { cancelAnimationFrame(animId); animId = null; }
-        }
+        if (entry.isIntersecting) { if (!animId) loop(); }
+        else { if (animId) { cancelAnimationFrame(animId); animId = null; } }
       });
     }, { threshold: 0.1 });
     if (orderEl) particleObserver.observe(orderEl);
-
-    function loop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      embers.forEach(e => { e.update(); e.draw(); });
-      animId = requestAnimationFrame(loop);
-    }
+    function loop() { ctx.clearRect(0, 0, canvas.width, canvas.height); embers.forEach(e => { e.update(); e.draw(); }); animId = requestAnimationFrame(loop); }
   })();
 
-  /* ── NAV SCROLL HIGHLIGHT ── */
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
   const navObserver = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        navLinks.forEach(a => {
-          a.style.color = a.getAttribute('href') === `#${e.target.id}`
-            ? 'var(--yellow)'
-            : '';
-        });
+        navLinks.forEach(a => { a.style.color = a.getAttribute('href') === `#${e.target.id}` ? 'var(--yellow)' : ''; });
       }
     });
   }, { threshold: 0.4 });
   sections.forEach(s => navObserver.observe(s));
 
-  /* ── ADD TO ORDER micro-interaction ── */
   document.querySelectorAll('.card-btn, .combo-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const original = this.textContent;
@@ -1495,53 +1168,24 @@
       this.style.background = '#2d7a2d';
       this.style.borderColor = '#2d7a2d';
       this.style.color = '#fff';
-      setTimeout(() => {
-        this.textContent = original;
-        this.style.background = '';
-        this.style.borderColor = '';
-        this.style.color = '';
-      }, 1600);
+      setTimeout(() => { this.textContent = original; this.style.background = ''; this.style.borderColor = ''; this.style.color = ''; }, 1600);
     });
   });
 
-  /* ── HAMBURGER (mobile) ── */
   const hamburger = document.getElementById('hamburger');
   const navLinksEl = document.querySelector('.nav-links');
   let mobileOpen = false;
-
   hamburger?.addEventListener('click', () => {
     mobileOpen = !mobileOpen;
     if (mobileOpen) {
-      navLinksEl.style.cssText = `
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 64px; left: 0; right: 0;
-        background: rgba(17,17,17,0.97);
-        padding: 28px 24px;
-        gap: 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.07);
-        backdrop-filter: blur(20px);
-        z-index: 999;
-      `;
-    } else {
-      navLinksEl.style.cssText = '';
-    }
+      navLinksEl.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(17,17,17,0.97);padding:28px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,0.07);backdrop-filter:blur(20px);z-index:999;';
+    } else { navLinksEl.style.cssText = ''; }
   });
 
-  /* ── SMOOTH scroll for all anchor links ── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Close mobile menu if open
-        if (mobileOpen) {
-          mobileOpen = false;
-          navLinksEl.style.cssText = '';
-        }
-      }
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); if (mobileOpen) { mobileOpen = false; navLinksEl.style.cssText = ''; } }
     });
   });
 </script>
